@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+  <!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
   <meta charset="UTF-8" />
   <title>文字数カウント｜無料で使えるシンプルツール</title>
   <meta name="description" content="無料で使えるシンプルな文字数カウントツール。文章を入力するだけでリアルタイムに文字数を確認できます。">
@@ -41,11 +50,6 @@
 </head>
 <body>
   <div class="container">
-    <h1>文字数カウントツール</h1>
-<p>
-文章を入力するだけで、文字数をリアルタイムでカウントできます。
-改行や空白を含めた文字数も確認できます。
-</p>
     <h2>このサイトについて</h2>
 <p>
 このサイトでは、無料で使えるシンプルなWebツールを公開しています。
@@ -56,7 +60,11 @@
 <ul>
   <li><a href="moji-count/">文字数カウントツール</a></li>
 </ul>
-
+ <h1>文字数カウントツール</h1>
+<p>
+文章を入力するだけで、文字数をリアルタイムでカウントできます。
+改行や空白を含めた文字数も確認できます。
+</p>
     <textarea id="text" placeholder="ここに文章を入力"></textarea>
     <div class="count">
       文字数：<span id="charCount">0</span><br />
@@ -80,6 +88,7 @@
   </script>
 </body>
 </html>
+
 
 
 
