@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>単位変換ツール</title>
+  <style>
+    body { font-family: sans-serif; max-width: 500px; margin: 30px auto; }
+    input, select, button { padding: 5px; margin: 5px 0; }
+    .result { margin-top: 15px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>単位変換ツール</h1>
+
+  <label>変換したい値：</label><br>
+  <input type="number" id="value" placeholder="数値を入力"><br>
+
+  <label>変換タイプ：</label><br>
+  <select id="type">
+    <option value="length">長さ (cm/m/inch)</option>
+    <option value="weight">重さ (kg/g/lb)</option>
+    <option value="temperature">温度 (℃/℉)</option>
+  </select><br>
+
+  <label>単位：</label><br>
+  <select id="unitFrom"></select>
+  <span>→</span>
+  <select id="unitTo"></select><br>
+
+  <button onclick="convert()">変換</button>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    const units = {
+      length: ["cm", "m", "inch"],
+      weight: ["kg", "g", "lb"],
+      temperature: ["℃", "℉"]
+    };
+
+    const unitFrom = document.getElementById("unitFrom");
+    const unitTo = document.getElementById("unitTo");
+    const typeSelect = document.getElementById("type");
+
+    function updateUnits() {
+      const type = typeSelect.value;
+      unitFrom.innerHTML = "";
+      unitTo.innerHTML = "";
+      units[type].forEach(u => {
+        const option1 = document.createElement("option");
+        option1.value = u; option1.textContent = u;
+        unitFrom.appendChild(option1);
+        const option2 = document.createElement("option");
+        option2.value = u; option2.textContent = u;
+        unitTo.appendChild(option2);
+      });
+    }
+
+    typeSelect.addEventListener("change", updateUnits);
+    updateUnits(); // 初期表示
+
+    function convert() {
+      const val = parseFloat(document.getElementById("value").value);
+      const type = typeSelect.value;
+      const from = unitFrom.value;
+      const to = unitTo.value;
+      if(isNaN(val)) {
+        document.getElementById("result").textContent = "数値を入力してください";
+        return;
+      }
+      let result;
+
+      if(type === "length") {
+        let cm;
+        if(from === "cm") cm = val;
+        else if(from === "m") cm = val*100;
+        else if(from === "inch") cm = val*2.54;
+        
+        if(to === "cm") result = cm;
+        else if(to === "m") result = cm/100;
+        else if(to === "inch") result = cm/2.54;
+      }
+
+      else if(type === "weight") {
+        let kg;
+        if(from === "kg") kg = val;
+        else if(from === "g") kg = val/1000;
+        else if(from === "lb") kg = val/2.20462;
+
+        if(to === "kg") result = kg;
+        else if(to === "g") result = kg*1000;
+        else if(to === "lb") result = kg*2.20462;
+      }
+
+      else if(type === "temperature") {
+        if(from === "℃" && to === "℉") result = val*9/5+32;
+        else if(from === "℉" && to === "℃") result = (val-32)*5/9;
+        else result = val;
+      }
+
+      document.getElementById("result").textContent = `結果： ${result} ${to}`;
+    }
+  </script>
+</body>
+</html>
