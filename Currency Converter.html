@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>通貨変換ツール | Currency Converter</title>
+  <meta name="description" content="無料で使えるシンプルな通貨変換ツール。Currency converter using daily exchange rates.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f7f7f7;
+      padding: 24px;
+    }
+    .container {
+      max-width: 650px;
+      margin: auto;
+      background: #fff;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    h1 {
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+    }
+    .desc {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      color: #444;
+    }
+    label {
+      margin-top: 12px;
+      display: block;
+      font-weight: 500;
+    }
+    select, input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      font-size: 1rem;
+    }
+    button {
+      cursor: pointer;
+    }
+    .swap {
+      margin-top: 10px;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+    .note {
+      margin-top: 12px;
+      font-size: 0.85rem;
+      color: #666;
+      line-height: 1.5;
+    }
+    .links {
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px solid #eee;
+      font-size: 0.9rem;
+    }
+    .links a {
+      display: block;
+      margin-top: 6px;
+      color: #0066cc;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>
+    通貨変換ツール<br>
+    <small>Currency Converter</small>
+  </h1>
+
+  <div class="desc">
+    <p>
+      このツールは、最新の為替レートに基づいて通貨を簡単に変換できます。<br>
+      金額を入力し、通貨を選択するだけで結果が表示されます。
+　　　    </p>
+    <p>
+      This tool allows you to easily convert currencies using daily updated exchange rates.<br>
+      Simply enter an amount and select currencies to see the result.
+    </p>
+  </div>
+
+  <label>金額（Amount）</label>
+  <input type="number" id="amount" value="1" min="0">
+
+  <label>変換元通貨（From）</label>
+  <select id="from"></select>
+
+  <button class="swap" id="swap">⇄ Swap currencies</button>
+
+  <label>変換先通貨（To）</label>
+  <select id="to"></select>
+
+  <div class="result" id="result">-</div>
+
+  <div class="note" id="updated"></div>
+
+  <div class="links">
+    <strong>Other tools</strong>
+    <a href="index.html">文字数カウントツール / Character Counter</a>
+    <a href="unit-converter.html">単位変換ツール / Unit Converter</a>
+  </div>
+</div>
+
+<script>
+const API_BASE = "https://api.frankfurter.dev/v1/latest";
+const CACHE_TIME = 24 * 60 * 60 * 1000;
+
+// 通貨名（主要分だけ。増やしてOK）
+const currencyNames = {
+  USD: "US Dollar / 米ドル",
+  JPY: "Japanese Yen / 日本円",
+  EUR: "Euro / ユーロ",
+  GBP: "British Pound / 英ポンド",
+  AUD: "Australian Dollar / 豪ドル",
+  CAD: "Canadian Dollar / カナダドル",
+  CHF: "Swiss Franc / スイスフラン",
+  CNY: "Chinese Yuan / 中国元"
+};
+
+const fromSelect = document.getElementById("from");
+const toSelect = document.getElementById("to");
+const amountInput = document.getElementById("amount");
+const resultDiv = document.getElementById("result");
+const updatedDiv = document.getElementById("updated");
+const swapBtn = document.getElementById("swap");
+
+async function getRates() {
+  const cached = localStorage.getItem("rates");
+  const cachedTime = localStorage.getItem("rates_time");
+  const now = Date.now();
+
+  if (cached && cachedTime && now - cachedTime < CACHE_TIME) {
+    return JSON.parse(cached);
+  }
+
+  const res = await fetch(API_BASE);
+  const data = await res.json();
+
+  localStorage.setItem("rates", JSON.stringify(data));
+  localStorage.setItem("rates_time", now);
+
+  return data;
+}
+
+function updateResult(rates, base) {
+  const amount = Number(amountInput.value);
+  const from = fromSelect.value;
+  const to = toSelect.value;
+
+  if (!amount || from === to) {
+    resultDiv.textContent = "-";
+    return;
+  }
+
+  let rate;
+  if (from === base) {
+    rate = rates[to];
+  } else if (to === base) {
+    rate = 1 / rates[from];
+  } else {
+    rate = rates[to] / rates[from];
+  }
+
+  resultDiv.textContent =
+    `${amount} ${from} = ${(amount * rate).toFixed(4)} ${to}`;
+}
+
+(async () => {
+  const data = await getRates();
+  const rates = data.rates;
+  const base = data.base;
+  const currencies = [base, ...Object.keys(rates)];
+
+  currencies.forEach(c => {
+    const name = currencyNames[c] || c;
+    fromSelect.innerHTML += `<option value="${c}">${c} - ${name}</option>`;
+    toSelect.innerHTML += `<option value="${c}">${c} - ${name}</option>`;
+  });
+
+  fromSelect.value = base;
+  toSelect.value = "JPY";
+
+  const updated = new Date(localStorage.getItem("rates_time"));
+  updatedDiv.innerHTML =
+    `最終更新：${updated.toLocaleString()}<br>
+     Last updated: ${updated.toLocaleString()}<br>
+     Reference rates provided by the European Central Bank (ECB).`;
+
+  [fromSelect, toSelect, amountInput].forEach(el => {
+    el.addEventListener("input", () =>
+      updateResult(rates, base)
+    );
+  });
+
+  swapBtn.addEventListener("click", () => {
+    const temp = fromSelect.value;
+    fromSelect.value = toSelect.value;
+    toSelect.value = temp;
+    updateResult(rates, base);
+  });
+
+  updateResult(rates, base);
+})();
+</script>
+
+</body>
+</html>
