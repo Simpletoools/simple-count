@@ -2,8 +2,8 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>標準語・方言変換ツール｜日本語言い換え無料ツール</title>
-<meta name="description" content="標準語を方言に変換できる無料ツールです。">
+<title>標準語・方言変換ツール｜大阪弁</title>
+<meta name="description" content="標準語を大阪弁に変換できる無料ツールです。">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -41,9 +41,6 @@ button { cursor:pointer; }
   border-radius:8px;
   white-space:pre-wrap;
 }
-.mode {
-  margin-top:12px;
-}
 footer {
   margin-top:32px;
   text-align:center;
@@ -56,20 +53,9 @@ footer a { margin:0 6px; }
 <body>
 <div class="container">
 
-<h1>標準語・方言変換ツール</h1>
+<h1>標準語 → 大阪弁 変換ツール</h1>
 
-<p>
-入力した標準語の文章を、日本各地の言葉に変換できます。<br>
-</p>
-
-<textarea id="inputText" placeholder="ここに文章を入力してください"></textarea>
-
-<h2>地域を選択</h2>
-<select id="dialect">
-  <option value="osaka">大阪</option>
-
-</select>
-
+<textarea id="inputText" placeholder="ここに標準語を入力してください"></textarea>
 
 <br>
 <button onclick="convert()">変換する</button>
@@ -78,66 +64,89 @@ footer a { margin:0 6px; }
 <div class="result" id="result"></div>
 
 <footer>
-  <a href="Currency Converter.html">通貨変換</a> |
   <a href="index.html">文字数カウント</a> |
-  <a href="unit-converter.html">単位変換</a> |
   <a href="privacy.html">プライバシーポリシー</a>
 </footer>
 
 </div>
-  
+
 <script>
-const osakaDict = {
-  words: {
-    "とても":"めっちゃ",
-    "すごく":"めっちゃ",
-    "本当に":"ほんまに",
-    "楽しい":"おもろい",
-    "面白い":"おもろい",
-    "疲れた":"しんどい",
-    "だめ":"あかん",
-    "いい":"ええ",
-    "違う":"ちゃう",
-    "いる":"おる",
-    "いらない":"いらん"
-  },
-
-  verbs: {
-    "行かない":"行けへん",
-    "来ない":"来えへん",
-    "食べない":"食べへん",
-    "見ない":"見えへん",
-    "しない":"せえへん",
-    "できない":"でけへん"
-  },
-
-  endings: {
-    "です。":"で。",
-    "です":"で",
-    "だよ":"で",
-    "だね":"やな",
-    "でした":"やったで",
-    "じゃない":"ちゃう"
-  }
+// ===== 辞書 =====
+const osakaWords = {
+  "本当に": "ほんまに",
+  "楽しい": "おもろい",
+  "面白い": "おもろい",
+  "疲れた": "しんどい",
+  "だめ": "あかん",
+  "いい": "ええ",
+  "違う": "ちゃう",
+  "いる": "おる",
+  "いらない": "いらん"
 };
 
+// ===== ユーティリティ =====
+function replaceSafe(text, from, to) {
+  const regex = new RegExp(from, "g");
+  return text.replace(regex, to);
+}
+
+// ===== 否定動詞変換 =====
+function convertNegativeVerb(text) {
+  return text
+    .replace(/しない/g, "せえへん")
+    .replace(/できない/g, "でけへん")
+    .replace(/行かない/g, "行かへん")
+    .replace(/来ない/g, "来えへん")
+    .replace(/食べない/g, "食べへん")
+    .replace(/見ない/g, "見ーへん");
+}
+
+// ===== 強調語（1回だけ）=====
+function convertEmphasis(text) {
+  let used = false;
+
+  function once(from, to) {
+    if (used) return;
+    if (text.includes(from)) {
+      text = text.replace(from, to);
+      used = true;
+    }
+  }
+
+  once("とても", "めっちゃ");
+  once("すごく", "めっちゃ");
+
+  return text;
+}
+
+// ===== 文末変換 =====
+function convertEnding(text) {
+  return text
+    .replace(/です。$/g, "やで。")
+    .replace(/です$/g, "やで")
+    .replace(/だよ$/g, "やで")
+    .replace(/だね$/g, "やな")
+    .replace(/でした$/g, "やったで")
+    .replace(/じゃない$/g, "ちゃう");
+}
+
+// ===== メイン =====
 function convert() {
   let text = document.getElementById("inputText").value;
 
-  // 単語
-  for (const k in osakaDict.words) {
-    text = text.split(k).join(osakaDict.words[k]);
+  // 強調語
+  text = convertEmphasis(text);
+
+  // 単語変換
+  for (const k in osakaWords) {
+    text = replaceSafe(text, k, osakaWords[k]);
   }
 
-  // 動詞
-  for (const k in osakaDict.verbs) {
-    text = text.split(k).join(osakaDict.verbs[k]);
-  }
+  // 否定動詞
+  text = convertNegativeVerb(text);
 
-  // 語尾
-  for (const k in osakaDict.endings) {
-    text = text.split(k).join(osakaDict.endings[k]);
-  }
+  // 文末
+  text = convertEnding(text);
 
   document.getElementById("result").textContent = text;
 }
@@ -145,4 +154,6 @@ function convert() {
 
 </body>
 </html>
+
+
 
