@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>標準語・方言変換ツール｜日本語言い換え無料ツール</title>
+<meta name="description" content="標準語を方言に変換できる無料ツールです。大阪・京都・博多などに対応。">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background:#f5f5f5;
+  padding:24px;
+}
+.container {
+  max-width:760px;
+  margin:auto;
+  background:#fff;
+  padding:24px;
+  border-radius:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+h1 { font-size:1.6rem; }
+h2 { margin-top:24px; }
+textarea {
+  width:100%;
+  height:140px;
+  padding:12px;
+  font-size:1rem;
+}
+select, button {
+  padding:8px 12px;
+  font-size:1rem;
+  margin-top:8px;
+}
+button { cursor:pointer; }
+.result {
+  margin-top:12px;
+  background:#f0f0f0;
+  padding:12px;
+  border-radius:8px;
+  white-space:pre-wrap;
+}
+.mode {
+  margin-top:12px;
+}
+footer {
+  margin-top:32px;
+  text-align:center;
+  font-size:.9rem;
+}
+footer a { margin:0 6px; }
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>標準語・方言変換ツール</h1>
+
+<p>
+入力した標準語の文章を、日本各地の言葉に変換できます。<br>
+</p>
+
+<textarea id="inputText" placeholder="ここに文章を入力してください"></textarea>
+
+<h2>地域を選択</h2>
+<select id="dialect">
+  <option value="osaka">大阪</option>
+
+</select>
+
+
+<br>
+<button onclick="convert()">変換する</button>
+
+<h2>変換結果</h2>
+<div class="result" id="result"></div>
+
+<footer>
+  <a href="Currency Converter.html">通貨変換</a> |
+  <a href="index.html">文字数カウント</a> |
+  <a href="unit-converter.html">単位変換</a> |
+  <a href="privacy.html">プライバシーポリシー</a>
+</footer>
+
+</div>
+
+<script>
+
+const osakaDict = {
+  words: {
+    "とても":"めっちゃ",
+    "すごく":"めっちゃ",
+    "本当に":"ほんまに",
+    "楽しい":"おもろい",
+    "面白い":"おもろい",
+    "疲れた":"しんどい",
+    "だめ":"あかん",
+    "いい":"ええ",
+    "違う":"ちゃう",
+    "いる":"おる",
+    "いらない":"いらん"
+  },
+
+  verbs: {
+    "行かない":"行けへん",
+    "来ない":"来えへん",
+    "食べない":"食べへん",
+    "見ない":"見えへん",
+    "しない":"せえへん",
+    "できない":"でけへん"
+  },
+
+  endings: {
+    "です。":"で。",
+    "です":"で",
+    "だよ":"で",
+    "だね":"やな",
+    "でした":"やったで",
+    "じゃない":"ちゃう"
+  }
+};
+ 
+};
+function convert() {
+  let text = document.getElementById("inputText").value;
+
+  // ① 単語変換
+  Object.entries(osakaDict.words)
+    .sort((a,b)=>b[0].length-a[0].length)
+    .forEach(([k,v])=>{
+      text = text.replaceAll(k,v);
+    });
+
+  // ② 動詞否定
+  Object.entries(osakaDict.verbs)
+    .sort((a,b)=>b[0].length-a[0].length)
+    .forEach(([k,v])=>{
+      text = text.replaceAll(k,v);
+    });
+
+  // ③ 語尾（最後）
+  Object.entries(osakaDict.endings)
+    .sort((a,b)=>b[0].length-a[0].length)
+    .forEach(([k,v])=>{
+      text = text.replaceAll(k,v);
+    });
+
+  document.getElementById("result").textContent = text;
+}
+</script>
+
+</body>
+</html>
