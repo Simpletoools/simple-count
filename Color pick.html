@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>カラーピッカー｜Light & Dark</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root {
+  --bg-start: #f8fafc;
+  --bg-mid: #eef2f7;
+  --bg-end: #e2e8f0;
+  --panel: #ffffff;
+
+  --text: #0f172a;
+  --muted: #64748b;
+
+  --input-bg: #f8fafc;
+  --border: rgba(0,0,0,.15);
+
+  --accent: #38bdf8;
+}
+
+[data-theme="dark"] {
+  --bg-start: #020617;
+  --bg-mid: #050b1e;
+  --bg-end: #0f172a;
+  --panel: #020617;
+
+  --text: #f8fafc;
+  --muted: #cbd5f5;
+
+  --input-bg: #020617;
+  --border: rgba(255,255,255,.25);
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: linear-gradient(
+    135deg,
+    var(--bg-start) 0%,
+    var(--bg-mid) 50%,
+    var(--bg-end) 100%
+  );
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text);
+  transition: background .3s, color .3s;
+}
+
+.app {
+  background: var(--panel);
+  padding: 24px;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 20px 30px rgba(0,0,0,.08);
+}
+
+.description {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.toggle {
+  border: 1px solid var(--border);
+  background: none;
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: .85rem;
+  color: var(--text);
+}
+
+.preview {
+  height: 120px;
+  border-radius: 14px;
+  margin: 16px 0;
+  border: 1px solid var(--border);
+}
+
+.controls {
+  display: grid;
+  gap: 12px;
+}
+
+input[type="color"] {
+  width: 100%;
+  height: 48px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.value {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+}
+
+.value input,
+.css-vars textarea {
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px;
+  font-family: monospace;
+  color: var(--text);
+}
+
+button {
+  background: linear-gradient(
+    135deg,
+    var(--accent) 0%,
+    color-mix(in srgb, var(--accent), white 30%) 50%,
+    var(--accent) 100%
+  );
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #fff;
+}
+
+.palette-info {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 6px;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.palette {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+  margin-bottom: 16px;
+}
+
+.swatch {
+  height: 48px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+}
+
+.css-vars,
+.history {
+  margin-top: 16px;
+  display: grid;
+  gap: 8px;
+}
+
+.css-vars h2,
+.history h2 {
+  font-size: .85rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+.css-vars textarea {
+  min-height: 150px;
+  resize: none;
+}
+
+.history-list {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.history-item {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 1px solid var(--border);
+}
+.links {
+  background: var(--panel);
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  margin-top: 16px;
+  display: grid;
+  gap: 8px;
+}
+
+.links strong {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  display: block;
+  color: var(--text);
+}
+
+.links a {
+  display: block;
+  padding: 8px 12px;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.links a:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+</style>
+</head>
+
+<body>
+<div class="app">
+  <div class="header">
+    <h1>🎨 カラーピッカー</h1>
+    <button class="toggle" id="themeToggle"></button>
+  </div>
+
+  <!-- 説明文をタイトルの下に移動 -->
+  <div class="description">
+    このカラーピッカーでは、色を選択しRGB値やHEX値を確認できます。
+    真ん中のパレットはグラデーションを表示します。各色コードやCSS値をコピーできます。デザインや開発など幅広い分野でお使いください。<br>
+  </div>
+
+  <div class="preview" id="preview"></div>
+
+  <div class="controls">
+    <input type="color" id="picker" value="#38bdf8">
+
+    <div class="value">
+      <input id="hex" readonly>
+      <button onclick="copy(hex.value)">HEX</button>
+    </div>
+
+    <div class="value">
+      <input id="rgb" readonly>
+      <button onclick="copy(rgb.value)">RGB</button>
+    </div>
+
+    <div class="value">
+      <input id="hsl" readonly>
+      <button onclick="copy(hsl.value)">HSL</button>
+    </div>
+  </div>
+
+  
+  <div class="palette" id="palette"></div>
+
+  <div class="css-vars">
+    <h2>CSS Variables（Light / Dark）</h2>
+    <textarea id="cssOutput" readonly></textarea>
+    <button onclick="copy(cssOutput.value)">CSSをコピー</button>
+  </div>
+
+  <div class="history">
+    <h2>履歴</h2>
+    <div class="history-list" id="history"></div>
+  </div>
+<div class="links">
+    <strong>ツール一覧　Other tools</strong>
+    <a href="index.html">文字数カウントツール / Character Counter</a>
+    <a href="unit-converter.html">単位変換ツール / Unit Converter</a>
+    <a href="Currency Converter.html">通貨変換ツール /　Currency Converter</a>
+</div>
+</div>
+
+<script>
+// --- JSは元のまま ---
+const picker = document.getElementById("picker");
+const preview = document.getElementById("preview");
+const hex = document.getElementById("hex");
+const rgb = document.getElementById("rgb");
+const hsl = document.getElementById("hsl");
+const palette = document.getElementById("palette");
+const historyEl = document.getElementById("history");
+const cssOutput = document.getElementById("cssOutput");
+const toggle = document.getElementById("themeToggle");
+const root = document.documentElement;
+
+let history = JSON.parse(localStorage.getItem("colors") || "[]");
+let theme = localStorage.getItem("theme") || "light";
+root.dataset.theme = theme;
+
+function updateToggleText(){
+  toggle.textContent = theme === "dark"
+    ? "☀️ ライトモード"
+    : "🌙 ダークモード";
+}
+
+updateToggleText();
+
+function update(color) {
+  preview.style.background = `
+    linear-gradient(
+      135deg,
+      ${shade(color, -30)} 0%,
+      ${color} 50%,
+      ${shade(color, 40)} 100%
+    )
+  `;
+
+  hex.value = color;
+
+  const r=parseInt(color.substr(1,2),16);
+  const g=parseInt(color.substr(3,2),16);
+  const b=parseInt(color.substr(5,2),16);
+
+  rgb.value=`rgb(${r}, ${g}, ${b})`;
+  hsl.value=toHSL(r,g,b);
+
+  makePalette(color);
+  applyCssVariables(color);
+}
+
+function applyCssVariables(color){
+  cssOutput.value = `
+/* Light */
+:root {
+  --primary: ${color};
+  --primary-soft: ${shade(color, 40)};
+  --primary-strong: ${shade(color, -40)};
+}
+
+/* Dark */
+[data-theme="dark"] {
+  --primary: ${shade(color, -20)};
+  --primary-soft: ${shade(color, 20)};
+  --primary-strong: ${shade(color, -60)};
+}
+`.trim();
+
+  root.style.setProperty("--accent", color);
+}
+
+function makePalette(color){
+  palette.innerHTML="";
+  [-40, 15, 40].forEach(o=>{
+    const c = shade(color, o);
+    const d = document.createElement("div");
+    d.className = "swatch";
+    d.style.background = c;
+    d.onclick = () => select(c);
+    palette.appendChild(d);
+  });
+}
+
+function shade(hex, a){
+  let r=parseInt(hex.substr(1,2),16);
+  let g=parseInt(hex.substr(3,2),16);
+  let b=parseInt(hex.substr(5,2),16);
+  r=Math.min(255,Math.max(0,r+a));
+  g=Math.min(255,Math.max(0,g+a));
+  b=Math.min(255,Math.max(0,b+a));
+  return "#"+[r,g,b].map(v=>v.toString(16).padStart(2,"0")).join("");
+}
+
+function toHSL(r,g,b){
+  r/=255; g/=255; b/=255;
+  const max=Math.max(r,g,b), min=Math.min(r,g,b);
+  let h,s,l=(max+min)/2;
+  if(max===min){h=s=0;}
+  else{
+    const d=max-min;
+    s=l>0.5?d/(2-max-min):d/(max+min);
+    switch(max){
+      case r:h=(g-b)/d+(g<b?6:0);break;
+      case g:h=(b-r)/d+2;break;
+      case b:h=(r-g)/d+4;break;
+    }
+    h*=60;
+  }
+  return `hsl(${Math.round(h)}, ${Math.round(s*100)}%, ${Math.round(l*100)}%)`;
+}
+
+function select(color){
+  picker.value=color;
+  update(color);
+  save(color);
+}
+
+function save(color){
+  if(history[0] !== color){
+    history.unshift(color);
+    history=history.slice(0,12);
+    localStorage.setItem("colors",JSON.stringify(history));
+    renderHistory();
+  }
+}
+
+function renderHistory(){
+  historyEl.innerHTML="";
+  history.forEach(c=>{
+    const d=document.createElement("div");
+    d.className="history-item";
+    d.style.background=c;
+    d.onclick=()=>select(c);
+    historyEl.appendChild(d);
+  });
+}
+
+function copy(text){
+  navigator.clipboard.writeText(text);
+}
+
+toggle.onclick=()=>{
+  theme = theme==="light"?"dark":"light";
+  root.dataset.theme=theme;
+  localStorage.setItem("theme",theme);
+  updateToggleText();
+  update(picker.value); // テーマ切替時に色も更新
+};
+
+picker.addEventListener("input",e=>{
+  update(e.target.value);
+  save(e.target.value);
+});
+
+renderHistory();
+update(picker.value);
+</script>
+</body>
+</html>
