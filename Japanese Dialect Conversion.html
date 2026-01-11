@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>標準語・方言変換ツール｜日本語言い換え無料ツール</title>
-<meta name="description" content="標準語を方言に変換できる無料ツールです。大阪・京都・博多などに対応。">
+<meta name="description" content="標準語を方言に変換できる無料ツールです。">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -85,9 +85,8 @@ footer a { margin:0 6px; }
 </footer>
 
 </div>
-
+  
 <script>
-
 const osakaDict = {
   words: {
     "とても":"めっちゃ",
@@ -121,31 +120,24 @@ const osakaDict = {
     "じゃない":"ちゃう"
   }
 };
- 
-};
+
 function convert() {
   let text = document.getElementById("inputText").value;
 
-  // ① 単語変換
-  Object.entries(osakaDict.words)
-    .sort((a,b)=>b[0].length-a[0].length)
-    .forEach(([k,v])=>{
-      text = text.replaceAll(k,v);
-    });
+  // 単語
+  for (const k in osakaDict.words) {
+    text = text.split(k).join(osakaDict.words[k]);
+  }
 
-  // ② 動詞否定
-  Object.entries(osakaDict.verbs)
-    .sort((a,b)=>b[0].length-a[0].length)
-    .forEach(([k,v])=>{
-      text = text.replaceAll(k,v);
-    });
+  // 動詞
+  for (const k in osakaDict.verbs) {
+    text = text.split(k).join(osakaDict.verbs[k]);
+  }
 
-  // ③ 語尾（最後）
-  Object.entries(osakaDict.endings)
-    .sort((a,b)=>b[0].length-a[0].length)
-    .forEach(([k,v])=>{
-      text = text.replaceAll(k,v);
-    });
+  // 語尾
+  for (const k in osakaDict.endings) {
+    text = text.split(k).join(osakaDict.endings[k]);
+  }
 
   document.getElementById("result").textContent = text;
 }
@@ -153,3 +145,4 @@ function convert() {
 
 </body>
 </html>
+
