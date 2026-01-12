@@ -38,6 +38,162 @@ It's convenient for calculations in blogs, studies, and daily life.
   <button onclick="convert()">変換Conversion</button>
 
   <div class="result" id="result"></div>
+  <style>
+  .unit-table-wrapper {
+    margin: 32px 0;
+  }
+
+  .unit-table-wrapper h3 {
+    margin-top: 32px;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+  }
+
+  .unit-table-wrapper p {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 12px;
+  }
+
+  table.unit-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 24px;
+    background: #fff;
+  }
+
+  table.unit-table th,
+  table.unit-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+
+  table.unit-table th {
+    background: #f2f4f7;
+    font-weight: bold;
+  }
+
+  table.unit-table tr:nth-child(even) {
+    background: #fafafa;
+  }
+
+  @media (max-width: 600px) {
+    table.unit-table th,
+    table.unit-table td {
+      font-size: 0.85rem;
+      padding: 8px;
+    }
+  }
+</style>
+
+<section class="unit-table-wrapper">
+
+  <h3>長さの単位と換算表<br><small>Length Unit Conversion Table</small></h3>
+  <p>
+    cm（センチメートル）を基準に、各単位の関係を示しています。
+    <br>
+    <small>The table below shows length unit relationships based on centimeters.</small>
+  </p>
+
+  <table class="unit-table">
+    <thead>
+      <tr>
+        <th>単位<br><small>Unit</small></th>
+        <th>基準（cm）<br><small>In centimeters</small></th>
+        <th>換算関係<br><small>Relationship</small></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>cm</td>
+        <td>1</td>
+        <td>基準単位<br><small>Base unit</small></td>
+      </tr>
+      <tr>
+        <td>m</td>
+        <td>100</td>
+        <td>1 m = 100 cm</td>
+      </tr>
+      <tr>
+        <td>inch</td>
+        <td>2.54</td>
+        <td>1 inch = 2.54 cm</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>重さの単位と換算表<br><small>Weight Unit Conversion Table</small></h3>
+  <p>
+    kg（キログラム）を基準にした重さの換算表です。
+    <br>
+    <small>This table shows weight unit relationships based on kilograms.</small>
+  </p>
+
+  <table class="unit-table">
+    <thead>
+      <tr>
+        <th>単位<br><small>Unit</small></th>
+        <th>基準（kg）<br><small>In kilograms</small></th>
+        <th>換算関係<br><small>Relationship</small></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>kg</td>
+        <td>1</td>
+        <td>基準単位<br><small>Base unit</small></td>
+      </tr>
+      <tr>
+        <td>g</td>
+        <td>0.001</td>
+        <td>1 g = 0.001 kg</td>
+      </tr>
+      <tr>
+        <td>lb</td>
+        <td>0.453592</td>
+        <td>1 lb ≈ 0.4536 kg</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>温度の単位と換算関係<br><small>Temperature Unit Relationship</small></h3>
+  <p>
+    温度は単純な倍率では変換できず、基準点と計算式が必要です。
+    <br>
+    <small>
+      Temperature cannot be converted using a simple multiplier and requires a formula.
+    </small>
+  </p>
+
+  <table class="unit-table">
+    <thead>
+      <tr>
+        <th>単位<br><small>Unit</small></th>
+        <th>基準点<br><small>Reference point</small></th>
+        <th>換算式<br><small>Formula</small></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>℃ (Celsius)</td>
+        <td>水の凝固点 0℃<br><small>Freezing point of water</small></td>
+        <td>基準単位<br><small>Base unit</small></td>
+      </tr>
+      <tr>
+        <td>℉ (Fahrenheit)</td>
+        <td>水の凝固点 32℉<br><small>Freezing point of water</small></td>
+        <td>
+          ℃ × 9 / 5 + 32<br>
+          <small>°C × 9 / 5 + 32</small>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</section>
+
 
   <script>
     const units = {
@@ -119,6 +275,7 @@ It's convenient for calculations in blogs, studies, and daily life.
   
 </body>
 </html>
+
 
 
 
