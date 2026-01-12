@@ -49,6 +49,7 @@ body {
   align-items: center;
   color: var(--text);
   transition: background .3s, color .3s;
+  padding: 24px;
 }
 
 .app {
@@ -194,6 +195,7 @@ button {
   cursor: pointer;
   border: 1px solid var(--border);
 }
+
 .links {
   background: var(--panel);
   padding: 16px;
@@ -228,6 +230,59 @@ button {
   border-color: var(--accent);
 }
 
+.content-section {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  line-height: 1.7;
+  font-size: 0.9rem;
+}
+
+.content-section h2 {
+  font-size: 1.1rem;
+  margin-top: 24px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+.content-section p {
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+.content-section .en {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: 8px;
+}
+
+.content-section ul {
+  margin: 12px 0 16px 20px;
+  color: var(--text);
+}
+
+.content-section li {
+  margin-bottom: 8px;
+}
+
+.faq-item {
+  margin-bottom: 16px;
+}
+
+.faq-item strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 16px;
+  }
+  .content-section {
+    font-size: 0.88rem;
+  }
+}
 </style>
 </head>
 
@@ -238,7 +293,6 @@ button {
     <button class="toggle" id="themeToggle"></button>
   </div>
 
-  <!-- 説明文をタイトルの下に移動 -->
   <div class="description">
     このカラーピッカーでは、色を選択しRGB値やHEX値を確認できます。
     真ん中のパレットはグラデーションを表示します。各色コードやCSS値をコピーできます。デザインや開発など幅広い分野でお使いください。<br>
@@ -265,7 +319,6 @@ button {
     </div>
   </div>
 
-  
   <div class="palette" id="palette"></div>
 
   <div class="css-vars">
@@ -278,16 +331,93 @@ button {
     <h2>履歴</h2>
     <div class="history-list" id="history"></div>
   </div>
-<div class="links">
+
+  <div class="links">
     <strong>ツール一覧　Other tools</strong>
     <a href="index.html">文字数カウントツール / Character Counter</a>
     <a href="unit-converter.html">単位変換ツール / Unit Converter</a>
     <a href="Currency Converter.html">通貨変換ツール /　Currency Converter</a>
-</div>
+  </div>
+
+  <section class="content-section">
+    <h2>カラーピッカーとは？</h2>
+    <p>
+      カラーピッカーは、視覚的に色を選択し、その色をHEX、RGB、HSLなどの形式で取得できるツールです。
+      Webデザイン、グラフィックデザイン、UI/UX設計など、デジタルクリエイティブの現場で広く使用されています。
+    </p>
+    <p class="en">
+      A color picker is a tool that allows you to visually select colors and obtain them in various formats such as HEX, RGB, and HSL.
+      It is widely used in web design, graphic design, and UI/UX development.
+    </p>
+
+    <h2>HEX、RGB、HSLの違い</h2>
+    <p>
+      <strong>HEX（16進数）:</strong> #FFFFFFのような形式で、HTMLやCSSで最も一般的に使用されます。6桁の英数字で色を表現します。
+    </p>
+    <p>
+      <strong>RGB（Red, Green, Blue）:</strong> rgb(255, 255, 255)のように、赤・緑・青の3色の組み合わせで色を表現します。0-255の数値で各色の強さを指定します。
+    </p>
+    <p>
+      <strong>HSL（Hue, Saturation, Lightness）:</strong> 色相・彩度・明度で色を表現します。直感的に色を調整しやすいのが特徴です。
+    </p>
+    <p class="en">
+      HEX is the most common format in HTML/CSS. RGB represents colors through red, green, and blue values (0-255). 
+      HSL uses hue, saturation, and lightness, making it intuitive for color adjustments.
+    </p>
+
+    <h2>カラーピッカーが役立つシーン</h2>
+    <ul>
+      <li>Webサイトやアプリのデザイン制作</li>
+      <li>ブランドカラーの選定と管理</li>
+      <li>既存のデザインから色を抽出</li>
+      <li>アクセシビリティを考慮した配色チェック</li>
+      <li>ダークモード/ライトモード用のカラーバリエーション作成</li>
+    </ul>
+    <p class="en">
+      Useful for web/app design, brand color selection, extracting colors from existing designs, 
+      checking accessibility, and creating color variations for dark/light modes.
+    </p>
+
+    <h2>ライト/ダークモード対応のCSS変数</h2>
+    <p>
+      このツールでは、選択した色に基づいてライトモードとダークモードの両方に対応したCSS変数を自動生成します。
+      生成されたコードをそのままCSSにコピーして使用できます。
+    </p>
+    <p class="en">
+      This tool automatically generates CSS variables for both light and dark modes based on your selected color.
+      You can copy and paste the generated code directly into your CSS.
+    </p>
+
+    <h2>よくある質問（FAQ）</h2>
+    
+    <div class="faq-item">
+      <strong>Q. 色コードをコピーするにはどうすればいいですか？</strong>
+      <p>各色コードの横にあるボタン（HEX、RGB、HSL）をクリックすると、クリップボードにコピーされます。</p>
+      <p class="en">Click the button next to each color code (HEX, RGB, HSL) to copy it to your clipboard.</p>
+    </div>
+
+    <div class="faq-item">
+      <strong>Q. グラデーションパレットはどのように使いますか？</strong>
+      <p>中央のパレットには、選択した色の明るいバリエーション、標準色、暗いバリエーションが表示されます。クリックすると、その色を選択できます。</p>
+      <p class="en">The palette shows lighter, standard, and darker variations of your selected color. Click any swatch to select that color.</p>
+    </div>
+
+    <div class="faq-item">
+      <strong>Q. 履歴はどのくらい保存されますか？</strong>
+      <p>最新の12色まで自動的に保存されます。ブラウザのローカルストレージに保存されるため、ページを閉じても履歴は残ります。</p>
+      <p class="en">Up to 12 recent colors are automatically saved in your browser's local storage and will persist even after closing the page.</p>
+    </div>
+
+    <div class="faq-item">
+      <strong>Q. ダークモードとライトモードの違いは何ですか？</strong>
+      <p>ダークモードは目の疲労を軽減し、暗い環境での視認性を向上させます。右上のボタンで切り替えられます。</p>
+      <p class="en">Dark mode reduces eye strain and improves visibility in low-light environments. Toggle using the button in the top right.</p>
+    </div>
+  </section>
+
 </div>
 
 <script>
-// --- JSは元のまま ---
 const picker = document.getElementById("picker");
 const preview = document.getElementById("preview");
 const hex = document.getElementById("hex");
@@ -429,7 +559,7 @@ toggle.onclick=()=>{
   root.dataset.theme=theme;
   localStorage.setItem("theme",theme);
   updateToggleText();
-  update(picker.value); // テーマ切替時に色も更新
+  update(picker.value);
 };
 
 picker.addEventListener("input",e=>{
