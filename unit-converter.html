@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>単位変換ツール</title>
-  <link rel="canonical" href="https://simpletooooles.com/unit-converter.html">
+  <link rel="canonical" href="https://simpletooooles.com/unit-converter">
   <style>
     body { font-family: sans-serif; max-width: 500px; margin: 30px auto; }
     input, select, button { padding: 5px; margin: 5px 0; }
@@ -18,7 +18,7 @@
   数値を入力し、変換タイプと単位を選んで「変換」ボタンを押すと、すぐに結果が表示されます。<br>
   ブログや学習、日常生活での計算に便利です。
   This tool allows you to easily convert units of length, weight, and temperature.
-Simply enter a value, select the conversion type and units, then press the “Convert” button to instantly see the result.
+Simply enter a value, select the conversion type and units, then press the "Convert" button to instantly see the result.
 It's convenient for calculations in blogs, studies, and daily life.
 </p>
   <label>変換したい値　Value to be converted：</label><br>
@@ -86,69 +86,102 @@ It's convenient for calculations in blogs, studies, and daily life.
       font-size: 0.85rem;
       padding: 8px;
     }
+  }
+
   .faq-section {
-      margin: 40px 0;
-    }
+    margin: 40px 0;
+  }
 
-    .faq-section h2 {
-      font-size: 18px;
-      margin-bottom: 15px;
-    }
+  .faq-section h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
 
-    .faq-item {
-      margin-bottom: 12px;
-    }
+  .faq-item {
+    margin-bottom: 12px;
+  }
 
-    .faq-item strong {
-      display: block;
-    }
-    /* FAQ */
-.faq-section {
-  margin: 50px 0;
-}
+  .faq-item strong {
+    display: block;
+  }
 
-.faq-section h2 {
-  font-size: 20px;
-  margin-bottom: 25px;
-}
+  /* FAQ */
+  .faq-section {
+    margin: 50px 0;
+  }
 
-.faq-section h2 span {
-  font-size: 14px;
-  color: #666;
-}
+  .faq-section h2 {
+    font-size: 20px;
+    margin-bottom: 25px;
+  }
 
-.faq-item {
-  margin-bottom: 25px;
-}
+  .faq-section h2 span {
+    font-size: 14px;
+    color: #666;
+  }
 
-.question {
-  font-weight: bold;
-  margin-bottom: 10px;
-}
+  .faq-item {
+    margin-bottom: 25px;
+  }
 
-.answer {
-  margin-left: 1em;
-  line-height: 1.8;
-}
+  .question {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
 
-.q {
-  color: #333;
-  margin-right: 6px;
-}
+  .answer {
+    margin-left: 1em;
+    line-height: 1.8;
+  }
 
-.a {
-  color: #007acc;
-  font-weight: bold;
-  margin-right: 6px;
-}
+  .q {
+    color: #333;
+    margin-right: 6px;
+  }
 
-.en {
-  display: block;
-  font-size: 13px;
-  color: #666;
-  margin-top: 4px;
-}
+  .a {
+    color: #007acc;
+    font-weight: bold;
+    margin-right: 6px;
+  }
 
+  .en {
+    display: block;
+    font-size: 13px;
+    color: #666;
+    margin-top: 4px;
+  }
+
+  .tool-links {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+  }
+
+  .tool-links strong {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+  }
+
+  .tool-links ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .tool-links li {
+    margin-bottom: 8px;
+  }
+
+  .tool-links a {
+    color: #007acc;
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+
+  .tool-links a:hover {
+    text-decoration: underline;
+  }
 </style>
 
 <section class="unit-table-wrapper">
@@ -256,6 +289,7 @@ It's convenient for calculations in blogs, studies, and daily life.
   </table>
 
 </section>
+
 <section class="faq-section">
   <h2>FAQ（よくある質問）<br><span>Frequently Asked Questions</span></h2>
 
@@ -344,6 +378,14 @@ It's convenient for calculations in blogs, studies, and daily life.
   </div>
 </section>
 
+<div class="tool-links">
+  <strong>ツール一覧　Other tools</strong>
+  <ul>
+    <li><a href="index.html">文字数カウントツール / Character Counter</a></li>
+    <li><a href="Currency Converter.html">通貨変換ツール / Currency Converter</a></li>
+    <li><a href="Color pick.html">カラーピッカー / Color Picker</a></li>
+  </ul>
+</div>
 
   <script>
     const units = {
@@ -415,16 +457,10 @@ It's convenient for calculations in blogs, studies, and daily life.
       document.getElementById("result").textContent = `結果： ${result} ${to}`;
     }
   </script>
-   <strong>ツール一覧　Other tools</strong>
-<ul>
-<a href="index.html">文字数カウントツール  Character Counter Tool</a>
-</ul>
-<ul>
-<a href="Currency Converter.html">通貨変換ツール　Currency Converter</a>
-</ul>
   
 </body>
 </html>
+
 
 
 
