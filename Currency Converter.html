@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>通貨変換ツール | Currency Converter</title>
-  <link rel="canonical" href="https://simpletooooles.com/Currency%20Converter.html">
   <meta name="description" content="無料で使えるシンプルな通貨変換ツール。Currency converter using daily exchange rates.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="canonical" href="https://simpletooooles.com/Currency%20Converter.html">
   <style>
 /* ===== Base ===== */
 body {
@@ -35,6 +35,29 @@ h1 {
   line-height: 1.7;
   margin-bottom: 24px;
   color: #444;
+}
+
+.usage {
+  margin-bottom: 20px;
+  padding: 14px;
+  background: #f9f9f9;
+  border-left: 3px solid #0066cc;
+  border-radius: 4px;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.usage p {
+  margin: 0;
+}
+
+.usage .jp {
+  color: #222;
+  margin-bottom: 8px;
+}
+
+.usage .en {
+  color: #666;
 }
 
 /* ===== Form / Tool ===== */
@@ -175,12 +198,6 @@ button {
 
   <div class="note" id="updated"></div>
 
-  <div class="links">
-    <strong>ツール一覧　Other tools</strong>
-    <a href="index.html">文字数カウントツール / Character Counter</a>
-    <a href="unit-converter.html">単位変換ツール / Unit Converter</a>
-  </div>
-
   <section class="column">
     <h2>通貨変換ツールとは？</h2>
     <p class="jp">
@@ -247,6 +264,13 @@ button {
       Yes. The exchange rates are updated regularly to reflect the latest available data.
     </p>
   </section>
+
+  <div class="links">
+    <strong>ツール一覧　Other tools</strong>
+    <a href="index.html">文字数カウントツール / Character Counter</a>
+    <a href="unit-converter.html">単位変換ツール / Unit Converter</a>
+    <a href="Color pick.html">カラーピッカー / Color Picker</a>
+  </div>
 
 </div>
 
@@ -321,8 +345,15 @@ function updateResult(rates, base) {
 
   currencies.forEach(c => {
     const name = currencyNames[c] || c;
-    fromSelect.innerHTML += `<option value="${c}">${c} - ${name}</option>`;
-    toSelect.innerHTML += `<option value="${c}">${c} - ${name}</option>`;
+    const option1 = document.createElement("option");
+    option1.value = c;
+    option1.textContent = `${c} - ${name}`;
+    fromSelect.appendChild(option1);
+    
+    const option2 = document.createElement("option");
+    option2.value = c;
+    option2.textContent = `${c} - ${name}`;
+    toSelect.appendChild(option2);
   });
 
   fromSelect.value = base;
@@ -353,7 +384,6 @@ function updateResult(rates, base) {
 
 </body>
 </html>
-
 
 
 
