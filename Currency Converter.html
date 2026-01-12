@@ -152,7 +152,7 @@ button {
     <p>
       このツールは、最新の為替レートに基づいて通貨を簡単に変換できます。<br>
       金額を入力し、通貨を選択するだけで結果が表示されます。
-　　　    </p>
+    </p>
     <p>
       This tool allows you to easily convert currencies using daily updated exchange rates.<br>
       Simply enter an amount and select currencies to see the result.
@@ -179,13 +179,80 @@ button {
     <a href="index.html">文字数カウントツール / Character Counter</a>
     <a href="unit-converter.html">単位変換ツール / Unit Converter</a>
   </div>
+
+  <section class="column">
+    <h2>通貨変換ツールとは？</h2>
+    <p class="jp">
+      通貨変換ツールは、異なる国の通貨を現在の為替レートに基づいて換算できる便利なツールです。
+      海外旅行の予算管理や、海外通販での価格比較、外貨建て収入の確認など、日常のさまざまな場面で役立ちます。
+    </p>
+    <p class="en">
+      A currency converter is a convenient tool that allows you to convert values between different currencies
+      based on current exchange rates. It is useful for travel budgeting, international online shopping,
+      and checking foreign currency income.
+    </p>
+
+    <h2>為替レートが毎日変動する理由</h2>
+    <p class="jp">
+      為替レートは、各国の経済状況、金利、物価、政治情勢、市場での需要と供給など、
+      多くの要因によって常に変動しています。そのため、同じ金額でも日によって換算結果が異なります。
+    </p>
+    <p class="en">
+      Exchange rates fluctuate every day due to various factors such as economic conditions,
+      interest rates, inflation, political situations, and market supply and demand.
+      This is why conversion results may change from day to day.
+    </p>
+
+    <h2>この通貨変換ツールが役立つシーン</h2>
+    <ul class="jp">
+      <li>海外旅行前の予算計算</li>
+      <li>海外通販サイトでの価格チェック</li>
+      <li>外貨建ての給料・報酬の目安確認</li>
+      <li>為替や金融の基礎学習</li>
+    </ul>
+    <p class="en">
+      This tool is helpful for travel planning, checking prices on international shopping sites,
+      estimating foreign salaries or payments, and learning the basics of exchange rates.
+    </p>
+
+    <h2>為替レート利用時の注意点</h2>
+    <p class="jp">
+      表示される為替レートは参考値です。実際の両替やクレジットカード決済では、
+      手数料やスプレッドが加算される場合があります。
+      正確な金額が必要な場合は、金融機関の公式レートも確認してください。
+    </p>
+    <p class="en">
+      The displayed exchange rates are for reference only.
+      Actual currency exchange or card payments may include additional fees or spreads.
+      Please check official rates provided by banks or payment services when accuracy is required.
+    </p>
+
+    <h2>よくある質問（FAQ）</h2>
+    <p class="jp">
+      <strong>Q. 為替レートのデータ元はどこですか？</strong><br>
+      欧州中央銀行（ECB）が公開している為替データを参考にしています。
+    </p>
+    <p class="en">
+      <strong>Q. Where do the exchange rates come from?</strong><br>
+      The exchange rate data is based on reference rates published by the European Central Bank (ECB).
+    </p>
+
+    <p class="jp">
+      <strong>Q. 為替レートは毎日更新されますか？</strong><br>
+      はい。為替データは定期的に更新され、最新の情報が反映されます。
+    </p>
+    <p class="en">
+      <strong>Q. Are exchange rates updated daily?</strong><br>
+      Yes. The exchange rates are updated regularly to reflect the latest available data.
+    </p>
+  </section>
+
 </div>
 
 <script>
 const API_BASE = "https://api.frankfurter.dev/v1/latest";
 const CACHE_TIME = 24 * 60 * 60 * 1000;
 
-// 通貨名（主要分だけ。増やしてOK）
 const currencyNames = {
   USD: "US Dollar / 米ドル",
   JPY: "Japanese Yen / 日本円",
@@ -260,9 +327,9 @@ function updateResult(rates, base) {
   fromSelect.value = base;
   toSelect.value = "JPY";
 
-  const updated = new Date(localStorage.getItem("rates_time"));
+  const updated = new Date(Number(localStorage.getItem("rates_time")));
   updatedDiv.innerHTML =
-    `最終更新：${updated.toLocaleString()}<br>
+    `最終更新:${updated.toLocaleString()}<br>
      Last updated: ${updated.toLocaleString()}<br>
      Reference rates provided by the European Central Bank (ECB).`;
 
@@ -282,75 +349,10 @@ function updateResult(rates, base) {
   updateResult(rates, base);
 })();
 </script>
-  <section class="column">
-  <h2>通貨変換ツールとは？</h2>
-  <p class="jp">
-    通貨変換ツールは、異なる国の通貨を現在の為替レートに基づいて換算できる便利なツールです。
-    海外旅行の予算管理や、海外通販での価格比較、外貨建て収入の確認など、日常のさまざまな場面で役立ちます。
-  </p>
-  <p class="en">
-    A currency converter is a convenient tool that allows you to convert values between different currencies
-    based on current exchange rates. It is useful for travel budgeting, international online shopping,
-    and checking foreign currency income.
-  </p>
-
-  <h2>為替レートが毎日変動する理由</h2>
-  <p class="jp">
-    為替レートは、各国の経済状況、金利、物価、政治情勢、市場での需要と供給など、
-    多くの要因によって常に変動しています。そのため、同じ金額でも日によって換算結果が異なります。
-  </p>
-  <p class="en">
-    Exchange rates fluctuate every day due to various factors such as economic conditions,
-    interest rates, inflation, political situations, and market supply and demand.
-    This is why conversion results may change from day to day.
-  </p>
-
-  <h2>この通貨変換ツールが役立つシーン</h2>
-  <ul class="jp">
-    <li>海外旅行前の予算計算</li>
-    <li>海外通販サイトでの価格チェック</li>
-    <li>外貨建ての給料・報酬の目安確認</li>
-    <li>為替や金融の基礎学習</li>
-  </ul>
-  <p class="en">
-    This tool is helpful for travel planning, checking prices on international shopping sites,
-    estimating foreign salaries or payments, and learning the basics of exchange rates.
-  </p>
-
-  <h2>為替レート利用時の注意点</h2>
-  <p class="jp">
-    表示される為替レートは参考値です。実際の両替やクレジットカード決済では、
-    手数料やスプレッドが加算される場合があります。
-    正確な金額が必要な場合は、金融機関の公式レートも確認してください。
-  </p>
-  <p class="en">
-    The displayed exchange rates are for reference only.
-    Actual currency exchange or card payments may include additional fees or spreads.
-    Please check official rates provided by banks or payment services when accuracy is required.
-  </p>
-
-  <h2>よくある質問（FAQ）</h2>
-  <p class="jp">
-    <strong>Q. 為替レートのデータ元はどこですか？</strong><br>
-    欧州中央銀行（ECB）が公開している為替データを参考にしています。
-  </p>
-  <p class="en">
-    <strong>Q. Where do the exchange rates come from?</strong><br>
-    The exchange rate data is based on reference rates published by the European Central Bank (ECB).
-  </p>
-
-  <p class="jp">
-    <strong>Q. 為替レートは毎日更新されますか？</strong><br>
-    はい。為替データは定期的に更新され、最新の情報が反映されます。
-  </p>
-  <p class="en">
-    <strong>Q. Are exchange rates updated daily?</strong><br>
-    Yes. The exchange rates are updated regularly to reflect the latest available data.
-  </p>
-</section>
 
 </body>
 </html>
+
 
 
 
