@@ -10,7 +10,7 @@
   </style>
 </head>
 <body>
-<h1>単位変換ツール</h1>
+<h1>単位変換ツール　Unit Conversion Tool</h1>
 
 <p>
   このツールでは、<strong>長さ・重さ・温度</strong>の単位を簡単に変換できます。<br>
@@ -20,22 +20,22 @@
 Simply enter a value, select the conversion type and units, then press the “Convert” button to instantly see the result.
 It's convenient for calculations in blogs, studies, and daily life.
 </p>
-  <label>変換したい値：</label><br>
+  <label>変換したい値　Value to be converted：</label><br>
   <input type="number" id="value" placeholder="数値を入力"><br>
 
-  <label>変換タイプ：</label><br>
+  <label>変換タイプ　type：</label><br>
   <select id="type">
     <option value="length">長さ (cm/m/inch)</option>
     <option value="weight">重さ (kg/g/lb)</option>
     <option value="temperature">温度 (℃/℉)</option>
   </select><br>
 
-  <label>単位：</label><br>
+  <label>単位　Unit：</label><br>
   <select id="unitFrom"></select>
   <span>→</span>
   <select id="unitTo"></select><br>
 
-  <button onclick="convert()">変換</button>
+  <button onclick="convert()">変換Conversion</button>
 
   <div class="result" id="result"></div>
 
@@ -119,6 +119,7 @@ It's convenient for calculations in blogs, studies, and daily life.
   
 </body>
 </html>
+
 
 
 
