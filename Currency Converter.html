@@ -94,6 +94,72 @@
   margin-left: 20px;
   margin-bottom: 12px;
 }
+<style>
+/* ===== Column / Article ===== */
+.column {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid #eee;
+  line-height: 1.9;
+  font-size: 0.95rem;
+}
+
+.column h2 {
+  margin-top: 36px;
+  margin-bottom: 12px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #222;
+}
+
+/* ===== Text ===== */
+.column p {
+  margin-bottom: 12px;
+}
+
+.column .jp {
+  color: #222;
+}
+
+.column .en {
+  color: #666;
+  font-size: 0.88rem;
+}
+
+/* ===== List ===== */
+.column ul {
+  margin: 8px 0 16px 20px;
+}
+
+.column li {
+  margin-bottom: 6px;
+}
+
+/* ===== FAQ ===== */
+.column strong {
+  font-weight: 600;
+}
+
+.column p.jp strong,
+.column p.en strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .column {
+    font-size: 0.92rem;
+  }
+  .column h2 {
+    font-size: 1.05rem;
+  }
+  .column .en {
+    font-size: 0.85rem;
+  }
+}
+</style>
+
   </style>
 </head>
 <body>
@@ -307,6 +373,7 @@ function updateResult(rates, base) {
 
 </body>
 </html>
+
 
 
 
