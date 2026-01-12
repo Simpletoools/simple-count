@@ -48,6 +48,19 @@
       margin-top: 12px;
       font-size: 1rem;
     }
+   #resetBtn {
+  margin-top: 12px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background: #e0e0e0;
+}
+#resetBtn:hover {
+  background: #d0d0d0;
+}
+
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2973378257048147"
      crossorigin="anonymous"></script>
@@ -67,6 +80,7 @@
 You can also check the total character count, including line breaks and spaces.
 </p>
     <textarea id="text" placeholder="ここに文章を入力"></textarea>
+   <button id="resetBtn" type="button">Reset</button>
     <div class="count">
       文字数：<span id="charCount">0</span><br />
       （空白含む）
@@ -262,16 +276,23 @@ You can also check the total character count, including line breaks and spaces.
     
   </div>
   <script>
-    const textArea = document.getElementById('text');
-    const charCount = document.getElementById('charCount');
+  const textArea = document.getElementById('text');
+  const charCount = document.getElementById('charCount');
+  const resetBtn = document.getElementById('resetBtn');
 
-    textArea.addEventListener('input', () => {
-      charCount.textContent = textArea.value.length;
-    });
-    
-  </script>
+  textArea.addEventListener('input', () => {
+    charCount.textContent = textArea.value.length;
+  });
+
+  resetBtn.addEventListener('click', () => {
+    textArea.value = '';
+    charCount.textContent = 0;
+  });
+</script>
+
 </body>
 </html>
+
 
 
 
