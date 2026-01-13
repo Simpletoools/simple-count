@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>おみくじツール | Fortune Telling</title>
+  <link rel="canonical" href="https://simpletooooles.com/omikuji">
+  <meta name="description" content="無料で楽しめるオンラインおみくじ。大吉・吉・小吉・凶の運勢とメッセージをお届けします。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+/* ===== Base ===== */
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f7f7f7;
+  padding: 24px;
+  color: #222;
+}
+
+.container {
+  max-width: 680px;
+  margin: auto;
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* ===== Header ===== */
+h1 {
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.desc {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin-bottom: 24px;
+  color: #444;
+  text-align: center;
+}
+
+/* ===== Omikuji Display ===== */
+.omikuji-box {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+  border-radius: 12px;
+  padding: 40px 24px;
+  margin-bottom: 24px;
+  text-align: center;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.fortune-result {
+  font-size: 3rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 16px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.fortune-message {
+  font-size: 1.1rem;
+  color: white;
+  line-height: 1.8;
+  margin-bottom: 12px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.fortune-submessage {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.9);
+  font-style: italic;
+}
+
+.initial-text {
+  font-size: 1.3rem;
+  color: white;
+  opacity: 0.9;
+}
+
+/* ===== Button ===== */
+button {
+  width: 100%;
+  padding: 16px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+  color: white;
+  transition: transform 0.2s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(238, 90, 111, 0.4);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* ===== Fortune Colors ===== */
+.omikuji-box.daikichi {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.omikuji-box.kichi {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.omikuji-box.shokichi {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.omikuji-box.kyo {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+/* ===== Column / Text ===== */
+.column {
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px solid #eee;
+  line-height: 1.9;
+  font-size: 0.95rem;
+}
+
+.column h2 {
+  margin-top: 32px;
+  margin-bottom: 10px;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.column p {
+  margin-bottom: 12px;
+}
+
+.column .en {
+  color: #666;
+  font-size: 0.88rem;
+}
+
+.column ul {
+  margin: 8px 0 16px 20px;
+}
+
+.column li {
+  margin-bottom: 6px;
+}
+
+.faq-item {
+  margin-bottom: 20px;
+}
+
+.faq-item strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* ===== Links ===== */
+.links {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+  font-size: 0.9rem;
+}
+
+.links strong {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.links a {
+  display: block;
+  margin-top: 6px;
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  body {
+    padding: 16px;
+  }
+  .fortune-result {
+    font-size: 2.5rem;
+  }
+  .fortune-message {
+    font-size: 1rem;
+  }
+  .column {
+    font-size: 0.92rem;
+  }
+  .column h2 {
+    font-size: 1.05rem;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>
+    🎋 おみくじツール<br>
+    <small>Fortune Telling</small>
+  </h1>
+
+  <div class="desc">
+    <p>
+      オンラインで楽しめるおみくじです。<br>
+      「おみくじを引く」ボタンを押して、今日の運勢を占いましょう！
+    </p>
+    <p>
+      Draw your fortune online!<br>
+      Press the button below to see your luck today.
+    </p>
+  </div>
+
+  <div class="omikuji-box" id="omikujiBox">
+    <div class="initial-text">
+      下のボタンを押しておみくじを引いてください<br>
+      <small style="font-size: 0.9rem;">Press the button below to draw your fortune</small>
+    </div>
+  </div>
+
+  <button onclick="drawOmikuji()">🎋 おみくじを引く Draw Fortune</button>
+
+  <section class="column">
+    <h2>おみくじとは？</h2>
+    <p>
+      おみくじは、日本の伝統的な占いの一つです。神社やお寺で引くことができ、
+      運勢や吉凶を占うために使われます。このツールでは、いつでもどこでも気軽におみくじを楽しめます。
+    </p>
+    <p class="en">
+      Omikuji is a traditional Japanese fortune-telling practice. Typically drawn at shrines and temples,
+      it's used to predict luck and fortune. This tool allows you to enjoy omikuji anytime, anywhere.
+    </p>
+
+    <h2>運勢の種類</h2>
+    <p>
+      おみくじには様々な運勢があります。このツールでは以下の4種類をご用意しています。
+    </p>
+    <ul>
+      <li><strong>大吉（Daikichi）</strong> - 最高の運勢。素晴らしい幸運が訪れる予兆</li>
+      <li><strong>吉（Kichi）</strong> - 良い運勢。物事が順調に進む</li>
+      <li><strong>小吉（Shokichi）</strong> - 少しの幸運。小さな良いことが起こる</li>
+      <li><strong>凶（Kyo）</strong> - 注意が必要な運勢。慎重に行動しましょう</li>
+    </ul>
+    <p class="en">
+      Omikuji fortunes range from very auspicious to cautionary. This tool features four types of fortunes.
+    </p>
+
+    <h2>おみくじの楽しみ方</h2>
+    <p>
+      おみくじは、結果に一喜一憂するだけでなく、書かれたメッセージを今後の指針として活用することが大切です。
+      良い結果でも油断せず、注意が必要な結果でも前向きに受け止めましょう。
+    </p>
+    <p class="en">
+      Rather than just celebrating or worrying about the result, use the message as guidance for your future actions.
+      Stay humble with good fortunes and stay positive with cautionary ones.
+    </p>
+
+    <h2>このツールの特徴</h2>
+    <ul>
+      <li>いつでも何度でも引き直し可能</li>
+      <li>完全無料で利用できます</li>
+      <li>各運勢に合わせたメッセージ付き</li>
+      <li>登録やログイン不要</li>
+      <li>スマートフォンでも快適に利用可能</li>
+    </ul>
+    <p class="en">
+      You can draw as many times as you like, completely free. Each fortune comes with a personalized message.
+    </p>
+
+    <h2>よくある質問（FAQ）</h2>
+    
+    <div class="faq-item">
+      <strong>Q. 何度も引いていいですか？</strong>
+      <p>
+        はい、何度でも引き直せます。ただし、伝統的には1日1回が良いとされています。
+      </p>
+      <p class="en">
+        Yes, you can draw as many times as you like. However, traditionally, it's recommended to draw only once per day.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <strong>Q. 結果は保存されますか？</strong>
+      <p>
+        いいえ、結果は保存されません。すべてブラウザ上で完結します。
+      </p>
+      <p class="en">
+        No, results are not saved. Everything is processed in your browser.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <strong>Q. 凶が出たらどうすればいいですか？</strong>
+      <p>
+        凶は「注意してください」という意味です。慎重に行動すれば問題ありません。
+        前向きに捉えて、日々を大切に過ごしましょう。
+      </p>
+      <p class="en">
+        Kyo (bad luck) is a reminder to be cautious. Act carefully and you'll be fine. 
+        Stay positive and treasure each day.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <strong>Q. このおみくじは本物ですか？</strong>
+      <p>
+        これは娯楽目的のオンラインツールです。楽しみながら、
+        メッセージを日々の生活のヒントとしてご活用ください。
+      </p>
+      <p class="en">
+        This is an online entertainment tool. Enjoy it and use the messages as hints for your daily life.
+      </p>
+    </div>
+  </section>
+
+  <div class="links">
+    <strong>ツール一覧　Other tools</strong>
+    <a href="index.html">文字数カウントツール / Character Counter</a>
+    <a href="unit-converter.html">単位変換ツール / Unit Converter</a>
+    <a href="Currency Converter.html">通貨変換ツール / Currency Converter</a>
+    <a href="Color pick.html">カラーピッカー / Color Picker</a>
+    <a href="password-generator.html">パスワード生成ツール / Password Generator</a>
+  </div>
+
+</div>
+
+<script>
+const fortunes = [
+  // 大吉のバリエーション
+  {
+    type: 'daikichi',
+    name: '大吉',
+    nameEn: 'Daikichi',
+    message: '素晴らしい幸運が訪れるでしょう',
+    submessage: 'Great fortune awaits you',
+    detail: '今日は最高の日です。新しいことに挑戦するのに最適なタイミング。自信を持って前進しましょう！'
+  },
+  {
+    type: 'daikichi',
+    name: '大吉',
+    nameEn: 'Daikichi',
+    message: '全てが順調に進む運気です',
+    submessage: 'Everything will go smoothly',
+    detail: 'あなたの努力が実を結ぶ時期です。積極的に行動することで、さらなる幸運を引き寄せられるでしょう。'
+  },
+  {
+    type: 'daikichi',
+    name: '大吉',
+    nameEn: 'Daikichi',
+    message: '最高の運勢に恵まれています',
+    submessage: 'Blessed with the best fortune',
+    detail: '困難も乗り越えられる強運の持ち主。周りの人にも幸せを分けてあげましょう。'
+  },
+  
+  // 吉のバリエーション
+  {
+    type: 'kichi',
+    name: '吉',
+    nameEn: 'Kichi',
+    message: '良いことが起こる予感です',
+    submessage: 'Good things are coming',
+    detail: '順調な一日になりそうです。周りの人に感謝の気持ちを忘れずに。'
+  },
+  {
+    type: 'kichi',
+    name: '吉',
+    nameEn: 'Kichi',
+    message: '穏やかな幸せが訪れます',
+    submessage: 'Peaceful happiness awaits',
+    detail: '急がず焦らず、自分のペースで進めば良い結果が待っています。笑顔を忘れずに。'
+  },
+  {
+    type: 'kichi',
+    name: '吉',
+    nameEn: 'Kichi',
+    message: '運気は上昇中です',
+    submessage: 'Your luck is rising',
+    detail: '今の調子を維持すれば、さらに良いことが起こるでしょう。前向きな気持ちが大切です。'
+  },
+  {
+    type: 'kichi',
+    name: '吉',
+    nameEn: 'Kichi',
+    message: '良い出会いに恵まれるでしょう',
+    submessage: 'Good encounters await you',
+    detail: '人とのつながりを大切に。新しい友人や協力者が現れる予感がします。'
+  },
+  
+  // 小吉のバリエーション
+  {
+    type: 'shokichi',
+    name: '小吉',
+    nameEn: 'Shokichi',
+    message: '小さな幸せが見つかるでしょう',
+    submessage: 'Small happiness will find you',
+    detail: 'ささやかな喜びを大切に。日常の中にある小さな幸せに気づく一日に。'
+  },
+  {
+    type: 'shokichi',
+    name: '小吉',
+    nameEn: 'Shokichi',
+    message: '地道な努力が報われます',
+    submessage: 'Your steady efforts will pay off',
+    detail: 'すぐに結果は出なくても、コツコツ続けることが大切。焦らず進みましょう。'
+  },
+  {
+    type: 'shokichi',
+    name: '小吉',
+    nameEn: 'Shokichi',
+    message: '身近なところに幸運があります',
+    submessage: 'Fortune is close to you',
+    detail: '遠くを見るより、足元をしっかり見つめて。思わぬところに良いことが隠れています。'
+  },
+  {
+    type: 'shokichi',
+    name: '小吉',
+    nameEn: 'Shokichi',
+    message: 'マイペースで進むと良いでしょう',
+    submessage: 'Go at your own pace',
+    detail: '周りと比べず、自分らしく過ごすことが幸せへの近道です。'
+  },
+  
+  // 凶のバリエーション
+  {
+    type: 'kyo',
+    name: '凶',
+    nameEn: 'Kyo',
+    message: '慎重に行動しましょう',
+    submessage: 'Be careful and stay positive',
+    detail: '注意深く過ごせば大丈夫。焦らず、一歩ずつ着実に進みましょう。ピンチはチャンスです！'
+  },
+  {
+    type: 'kyo',
+    name: '凶',
+    nameEn: 'Kyo',
+    message: '今は準備の時期です',
+    submessage: 'Time to prepare',
+    detail: '無理に動かず、力を蓄える時。次のチャンスに備えて心身を整えましょう。'
+  },
+  {
+    type: 'kyo',
+    name: '凶',
+    nameEn: 'Kyo',
+    message: '落ち着いて行動すれば乗り越えられます',
+    submessage: 'Stay calm and you will overcome',
+    detail: '困難は一時的なもの。冷静さを保ち、周りの助けも借りながら進みましょう。'
+  },
+  {
+    type: 'kyo',
+    name: '凶',
+    nameEn: 'Kyo',
+    message: '反省と学びの時です',
+    submessage: 'Time for reflection and learning',
+    detail: '立ち止まって考えることも大切。この経験が次の成長につながります。前向きに！'
+  }
+];
+
+function drawOmikuji() {
+  const box = document.getElementById('omikujiBox');
+  
+  // アニメーション効果
+  box.style.opacity = '0.3';
+  box.style.transform = 'scale(0.95)';
+  
+  setTimeout(() => {
+    // ランダムに運勢を選択
+    const randomIndex = Math.floor(Math.random() * fortunes.length);
+    const fortune = fortunes[randomIndex];
+    
+    // 背景色を変更
+    box.className = 'omikuji-box ' + fortune.type;
+    
+    // 結果を表示
+    box.innerHTML = `
+      <div class="fortune-result">${fortune.name}</div>
+      <div class="fortune-message">${fortune.message}</div>
+      <div class="fortune-submessage">${fortune.submessage}</div>
+      <div style="margin-top: 20px; font-size: 0.95rem; color: rgba(255,255,255,0.95); line-height: 1.7;">
+        ${fortune.detail}
+      </div>
+    `;
+    
+    // アニメーション戻す
+    box.style.opacity = '1';
+    box.style.transform = 'scale(1)';
+  }, 300);
+}
+</script>
+
+</body>
+</html>
