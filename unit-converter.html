@@ -2,465 +2,459 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>単位変換ツール</title>
+  <title>単位変換ツール | Unit Converter</title>
   <link rel="canonical" href="https://simpletooooles.com/unit-converter">
+  <meta name="description" content="長さ・重さ・温度の単位を簡単に変換できる無料ツール。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { font-family: sans-serif; max-width: 500px; margin: 30px auto; }
-    input, select, button { padding: 5px; margin: 5px 0; }
-    .result { margin-top: 15px; font-weight: bold; }
-  </style>
+/* ===== Base ===== */
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f7f7f7;
+  padding: 24px;
+  color: #222;
+}
+
+.container {
+  max-width: 680px;
+  margin: auto;
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* ===== Header ===== */
+h1 {
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+}
+
+.desc {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin-bottom: 24px;
+  color: #444;
+}
+
+/* ===== Form / Tool ===== */
+label {
+  margin-top: 14px;
+  display: block;
+  font-weight: 500;
+}
+
+select,
+input,
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  font-size: 1rem;
+}
+
+button {
+  cursor: pointer;
+  background: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  margin-top: 12px;
+}
+
+button:hover {
+  background: #0052a3;
+}
+
+.result {
+  margin-top: 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  text-align: center;
+}
+
+/* ===== Column / Text ===== */
+.column {
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px solid #eee;
+  line-height: 1.9;
+  font-size: 0.95rem;
+}
+
+.column h2 {
+  margin-top: 32px;
+  margin-bottom: 10px;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.column p {
+  margin-bottom: 12px;
+}
+
+.column .en {
+  color: #666;
+  font-size: 0.88rem;
+}
+
+/* ===== Tables ===== */
+.column table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0 24px 0;
+  background: #fff;
+}
+
+.column table th,
+.column table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.column table th {
+  background: #f2f4f7;
+  font-weight: bold;
+}
+
+.column table tr:nth-child(even) {
+  background: #fafafa;
+}
+
+/* ===== List ===== */
+.column ul {
+  margin: 8px 0 16px 20px;
+}
+
+.column li {
+  margin-bottom: 6px;
+}
+
+/* ===== FAQ ===== */
+.faq-item {
+  margin-bottom: 20px;
+}
+
+.faq-item strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* ===== Links ===== */
+.links {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+  font-size: 0.9rem;
+}
+
+.links strong {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.links a {
+  display: block;
+  margin-top: 6px;
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  body {
+    padding: 16px;
+  }
+  .column {
+    font-size: 0.92rem;
+  }
+  .column h2 {
+    font-size: 1.05rem;
+  }
+  .column table th,
+  .column table td {
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+}
+</style>
 </head>
 <body>
-<h1>単位変換ツール　Unit Conversion Tool</h1>
 
-<p>
-  このツールでは、<strong>長さ・重さ・温度</strong>の単位を簡単に変換できます。<br>
-  数値を入力し、変換タイプと単位を選んで「変換」ボタンを押すと、すぐに結果が表示されます。<br>
-  ブログや学習、日常生活での計算に便利です。
-  This tool allows you to easily convert units of length, weight, and temperature.
-Simply enter a value, select the conversion type and units, then press the "Convert" button to instantly see the result.
-It's convenient for calculations in blogs, studies, and daily life.
-</p>
-  <label>変換したい値　Value to be converted：</label><br>
-  <input type="number" id="value" placeholder="数値を入力"><br>
+<div class="container">
+  <h1>
+    単位変換ツール<br>
+    <small>Unit Converter</small>
+  </h1>
 
-  <label>変換タイプ　type：</label><br>
+  <div class="desc">
+    <p>
+      このツールでは、長さ・重さ・温度の単位を簡単に変換できます。<br>
+      数値を入力し、変換タイプと単位を選んで「変換」ボタンを押すと、すぐに結果が表示されます。
+    </p>
+    <p>
+      This tool allows you to easily convert units of length, weight, and temperature.<br>
+      Simply enter a value, select the conversion type and units, then press the "Convert" button to see the result.
+    </p>
+  </div>
+
+  <label>変換したい値（Value to convert）</label>
+  <input type="number" id="value" placeholder="数値を入力">
+
+  <label>変換タイプ（Type）</label>
   <select id="type">
-    <option value="length">長さ (cm/m/inch)</option>
-    <option value="weight">重さ (kg/g/lb)</option>
-    <option value="temperature">温度 (℃/℉)</option>
-  </select><br>
+    <option value="length">長さ / Length (cm/m/inch)</option>
+    <option value="weight">重さ / Weight (kg/g/lb)</option>
+    <option value="temperature">温度 / Temperature (℃/℉)</option>
+  </select>
 
-  <label>単位　Unit：</label><br>
+  <label>変換元単位（From）</label>
   <select id="unitFrom"></select>
-  <span>→</span>
-  <select id="unitTo"></select><br>
 
-  <button onclick="convert()">変換Conversion</button>
+  <label>変換先単位（To）</label>
+  <select id="unitTo"></select>
 
-  <div class="result" id="result"></div>
-  <style>
-  .unit-table-wrapper {
-    margin: 32px 0;
-  }
+  <button onclick="convert()">変換 Convert</button>
 
-  .unit-table-wrapper h3 {
-    margin-top: 32px;
-    margin-bottom: 8px;
-    font-size: 1.1rem;
-  }
+  <div class="result" id="result">-</div>
 
-  .unit-table-wrapper p {
-    font-size: 0.9rem;
-    color: #555;
-    margin-bottom: 12px;
-  }
-
-  table.unit-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 24px;
-    background: #fff;
-  }
-
-  table.unit-table th,
-  table.unit-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
-    font-size: 0.9rem;
-  }
-
-  table.unit-table th {
-    background: #f2f4f7;
-    font-weight: bold;
-  }
-
-  table.unit-table tr:nth-child(even) {
-    background: #fafafa;
-  }
-
-  @media (max-width: 600px) {
-    table.unit-table th,
-    table.unit-table td {
-      font-size: 0.85rem;
-      padding: 8px;
-    }
-  }
-
-  .faq-section {
-    margin: 40px 0;
-  }
-
-  .faq-section h2 {
-    font-size: 18px;
-    margin-bottom: 15px;
-  }
-
-  .faq-item {
-    margin-bottom: 12px;
-  }
-
-  .faq-item strong {
-    display: block;
-  }
-
-  /* FAQ */
-  .faq-section {
-    margin: 50px 0;
-  }
-
-  .faq-section h2 {
-    font-size: 20px;
-    margin-bottom: 25px;
-  }
-
-  .faq-section h2 span {
-    font-size: 14px;
-    color: #666;
-  }
-
-  .faq-item {
-    margin-bottom: 25px;
-  }
-
-  .question {
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-
-  .answer {
-    margin-left: 1em;
-    line-height: 1.8;
-  }
-
-  .q {
-    color: #333;
-    margin-right: 6px;
-  }
-
-  .a {
-    color: #007acc;
-    font-weight: bold;
-    margin-right: 6px;
-  }
-
-  .en {
-    display: block;
-    font-size: 13px;
-    color: #666;
-    margin-top: 4px;
-  }
-
-  .tool-links {
-    margin-top: 40px;
-    padding-top: 20px;
-    border-top: 1px solid #ddd;
-  }
-
-  .tool-links strong {
-    display: block;
-    margin-bottom: 10px;
-    font-size: 0.95rem;
-  }
-
-  .tool-links ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  .tool-links li {
-    margin-bottom: 8px;
-  }
-
-  .tool-links a {
-    color: #007acc;
-    text-decoration: none;
-    font-size: 0.9rem;
-  }
-
-  .tool-links a:hover {
-    text-decoration: underline;
-  }
-</style>
-
-<section class="unit-table-wrapper">
-
-  <h3>長さの単位と換算表<br><small>Length Unit Conversion Table</small></h3>
-  <p>
-    cm（センチメートル）を基準に、各単位の関係を示しています。
-    <br>
-    <small>The table below shows length unit relationships based on centimeters.</small>
-  </p>
-
-  <table class="unit-table">
-    <thead>
-      <tr>
-        <th>単位<br><small>Unit</small></th>
-        <th>基準（cm）<br><small>In centimeters</small></th>
-        <th>換算関係<br><small>Relationship</small></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>cm</td>
-        <td>1</td>
-        <td>基準単位<br><small>Base unit</small></td>
-      </tr>
-      <tr>
-        <td>m</td>
-        <td>100</td>
-        <td>1 m = 100 cm</td>
-      </tr>
-      <tr>
-        <td>inch</td>
-        <td>2.54</td>
-        <td>1 inch = 2.54 cm</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h3>重さの単位と換算表<br><small>Weight Unit Conversion Table</small></h3>
-  <p>
-    kg（キログラム）を基準にした重さの換算表です。
-    <br>
-    <small>This table shows weight unit relationships based on kilograms.</small>
-  </p>
-
-  <table class="unit-table">
-    <thead>
-      <tr>
-        <th>単位<br><small>Unit</small></th>
-        <th>基準（kg）<br><small>In kilograms</small></th>
-        <th>換算関係<br><small>Relationship</small></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>kg</td>
-        <td>1</td>
-        <td>基準単位<br><small>Base unit</small></td>
-      </tr>
-      <tr>
-        <td>g</td>
-        <td>0.001</td>
-        <td>1 g = 0.001 kg</td>
-      </tr>
-      <tr>
-        <td>lb</td>
-        <td>0.453592</td>
-        <td>1 lb ≈ 0.4536 kg</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h3>温度の単位と換算関係<br><small>Temperature Unit Relationship</small></h3>
-  <p>
-    温度は単純な倍率では変換できず、基準点と計算式が必要です。
-    <br>
-    <small>
-      Temperature cannot be converted using a simple multiplier and requires a formula.
-    </small>
-  </p>
-
-  <table class="unit-table">
-    <thead>
-      <tr>
-        <th>単位<br><small>Unit</small></th>
-        <th>基準点<br><small>Reference point</small></th>
-        <th>換算式<br><small>Formula</small></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>℃ (Celsius)</td>
-        <td>水の凝固点 0℃<br><small>Freezing point of water</small></td>
-        <td>基準単位<br><small>Base unit</small></td>
-      </tr>
-      <tr>
-        <td>℉ (Fahrenheit)</td>
-        <td>水の凝固点 32℉<br><small>Freezing point of water</small></td>
-        <td>
-          ℃ × 9 / 5 + 32<br>
-          <small>°C × 9 / 5 + 32</small>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-</section>
-
-<section class="faq-section">
-  <h2>FAQ（よくある質問）<br><span>Frequently Asked Questions</span></h2>
-
-  <div class="faq-item">
-    <p class="question">
-      <span class="q">Q.</span>
-      この単位変換ツールは何に使えますか？<br>
-      <span class="en">What can this unit converter be used for?</span>
+  <section class="column">
+    <h2>長さの単位と換算表</h2>
+    <p class="en">Length Unit Conversion Table</p>
+    <p>
+      cm（センチメートル）を基準に、各単位の関係を示しています。<br>
+      <span class="en">The table below shows length unit relationships based on centimeters.</span>
     </p>
 
-    <p class="answer">
-      <span class="a">A.</span>
-      学習や勉強、ブログ記事の作成、海外製品のサイズ確認、日常生活での簡単な計算などに使えます。
-      数値を入力するだけで、すぐに変換結果を確認できます。<br>
-      <span class="en">
-        This tool can be used for studying, writing blog articles, checking sizes of overseas products,
-        and simple calculations in daily life.
-      </span>
-    </p>
-  </div>
+    <table>
+      <thead>
+        <tr>
+          <th>単位<br><small>Unit</small></th>
+          <th>基準（cm）<br><small>In centimeters</small></th>
+          <th>換算関係<br><small>Relationship</small></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>cm</td>
+          <td>1</td>
+          <td>基準単位<br><small>Base unit</small></td>
+        </tr>
+        <tr>
+          <td>m</td>
+          <td>100</td>
+          <td>1 m = 100 cm</td>
+        </tr>
+        <tr>
+          <td>inch</td>
+          <td>2.54</td>
+          <td>1 inch = 2.54 cm</td>
+        </tr>
+      </tbody>
+    </table>
 
-  <div class="faq-item">
-    <p class="question">
-      <span class="q">Q.</span>
-      変換結果は正確ですか？<br>
-      <span class="en">Are the conversion results accurate?</span>
-    </p>
-
-    <p class="answer">
-      <span class="a">A.</span>
-      一般的に使用されている換算率と計算式をもとに変換しています。
-      日常利用や学習用途では十分な精度ですが、専門用途では公式資料も併せてご確認ください。<br>
-      <span class="en">
-        The conversions are based on commonly used formulas and ratios.
-        Accuracy is sufficient for daily and educational use, but official references are recommended.
-      </span>
-    </p>
-  </div>
-
-  <div class="faq-item">
-    <p class="question">
-      <span class="q">Q.</span>
-      小数点のある数値も変換できますか？<br>
-      <span class="en">Can I convert decimal values?</span>
+    <h2>重さの単位と換算表</h2>
+    <p class="en">Weight Unit Conversion Table</p>
+    <p>
+      kg（キログラム）を基準にした重さの換算表です。<br>
+      <span class="en">This table shows weight unit relationships based on kilograms.</span>
     </p>
 
-    <p class="answer">
-      <span class="a">A.</span>
-      はい、小数点を含む数値も入力できます。必要に応じて、小数点以下の桁数を調整してください。<br>
-      <span class="en">
+    <table>
+      <thead>
+        <tr>
+          <th>単位<br><small>Unit</small></th>
+          <th>基準（kg）<br><small>In kilograms</small></th>
+          <th>換算関係<br><small>Relationship</small></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>kg</td>
+          <td>1</td>
+          <td>基準単位<br><small>Base unit</small></td>
+        </tr>
+        <tr>
+          <td>g</td>
+          <td>0.001</td>
+          <td>1 g = 0.001 kg</td>
+        </tr>
+        <tr>
+          <td>lb</td>
+          <td>0.453592</td>
+          <td>1 lb ≈ 0.4536 kg</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>温度の単位と換算関係</h2>
+    <p class="en">Temperature Unit Relationship</p>
+    <p>
+      温度は単純な倍率では変換できず、基準点と計算式が必要です。<br>
+      <span class="en">Temperature cannot be converted using a simple multiplier and requires a formula.</span>
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>単位<br><small>Unit</small></th>
+          <th>基準点<br><small>Reference point</small></th>
+          <th>換算式<br><small>Formula</small></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>℃ (Celsius)</td>
+          <td>水の凝固点 0℃<br><small>Freezing point</small></td>
+          <td>基準単位<br><small>Base unit</small></td>
+        </tr>
+        <tr>
+          <td>℉ (Fahrenheit)</td>
+          <td>水の凝固点 32℉<br><small>Freezing point</small></td>
+          <td>℃ × 9/5 + 32<br><small>°C × 9/5 + 32</small></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>よくある質問（FAQ）</h2>
+    
+    <div class="faq-item">
+      <strong>Q. この単位変換ツールは何に使えますか？</strong>
+      <p>
+        学習や勉強、ブログ記事の作成、海外製品のサイズ確認、日常生活での簡単な計算などに使えます。
+      </p>
+      <p class="en">
+        This tool can be used for studying, writing blog articles, checking sizes of overseas products, and simple calculations in daily life.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <strong>Q. 変換結果は正確ですか？</strong>
+      <p>
+        一般的に使用されている換算率と計算式をもとに変換しています。日常利用や学習用途では十分な精度ですが、専門用途では公式資料も併せてご確認ください。
+      </p>
+      <p class="en">
+        The conversions are based on commonly used formulas and ratios. Accuracy is sufficient for daily and educational use.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <strong>Q. 小数点のある数値も変換できますか？</strong>
+      <p>
+        はい、小数点を含む数値も入力できます。
+      </p>
+      <p class="en">
         Yes. You can enter decimal values and convert them without any problem.
-      </span>
-    </p>
-  </div>
+      </p>
+    </div>
 
-  <div class="faq-item">
-    <p class="question">
-      <span class="q">Q.</span>
-      入力した数値や変換結果は保存されますか？<br>
-      <span class="en">Is my input data stored?</span>
-    </p>
-
-    <p class="answer">
-      <span class="a">A.</span>
-      いいえ、入力された数値や変換結果は保存されません。すべての処理はブラウザ上で行われます。<br>
-      <span class="en">
+    <div class="faq-item">
+      <strong>Q. 入力した数値や変換結果は保存されますか？</strong>
+      <p>
+        いいえ、入力された数値や変換結果は保存されません。すべての処理はブラウザ上で行われます。
+      </p>
+      <p class="en">
         No. All calculations are performed locally in your browser and no data is stored.
-      </span>
-    </p>
+      </p>
+    </div>
+  </section>
+
+  <div class="links">
+    <strong>ツール一覧　Other tools</strong>
+    <a href="index.html">文字数カウントツール / Character Counter</a>
+    <a href="Currency Converter.html">通貨変換ツール / Currency Converter</a>
+    <a href="Color pick.html">カラーピッカー / Color Picker</a>
+    <a href="password-generator.html">パスワード生成ツール / Password Generator</a>
   </div>
 
-  <div class="faq-item">
-    <p class="question">
-      <span class="q">Q.</span>
-      このツールは無料で使えますか？<br>
-      <span class="en">Is this tool free to use?</span>
-    </p>
-
-    <p class="answer">
-      <span class="a">A.</span>
-      はい、完全に無料で利用できます。登録やログインは不要です。<br>
-      <span class="en">
-        Yes. This tool is completely free and requires no registration or login.
-      </span>
-    </p>
-  </div>
-</section>
-
-<div class="tool-links">
-  <strong>ツール一覧　Other tools</strong>
-  <ul>
-    <li><a href="index.html">文字数カウントツール / Character Counter</a></li>
-    <li><a href="Currency Converter.html">通貨変換ツール / Currency Converter</a></li>
-    <li><a href="Color pick.html">カラーピッカー / Color Picker</a></li>
-  </ul>
 </div>
 
-  <script>
-    const units = {
-      length: ["cm", "m", "inch"],
-      weight: ["kg", "g", "lb"],
-      temperature: ["℃", "℉"]
-    };
+<script>
+  const units = {
+    length: ["cm", "m", "inch"],
+    weight: ["kg", "g", "lb"],
+    temperature: ["℃", "℉"]
+  };
 
-    const unitFrom = document.getElementById("unitFrom");
-    const unitTo = document.getElementById("unitTo");
-    const typeSelect = document.getElementById("type");
+  const unitFrom = document.getElementById("unitFrom");
+  const unitTo = document.getElementById("unitTo");
+  const typeSelect = document.getElementById("type");
 
-    function updateUnits() {
-      const type = typeSelect.value;
-      unitFrom.innerHTML = "";
-      unitTo.innerHTML = "";
-      units[type].forEach(u => {
-        const option1 = document.createElement("option");
-        option1.value = u; option1.textContent = u;
-        unitFrom.appendChild(option1);
-        const option2 = document.createElement("option");
-        option2.value = u; option2.textContent = u;
-        unitTo.appendChild(option2);
-      });
+  function updateUnits() {
+    const type = typeSelect.value;
+    unitFrom.innerHTML = "";
+    unitTo.innerHTML = "";
+    units[type].forEach(u => {
+      const option1 = document.createElement("option");
+      option1.value = u;
+      option1.textContent = u;
+      unitFrom.appendChild(option1);
+      
+      const option2 = document.createElement("option");
+      option2.value = u;
+      option2.textContent = u;
+      unitTo.appendChild(option2);
+    });
+  }
+
+  typeSelect.addEventListener("change", updateUnits);
+  updateUnits();
+
+  function convert() {
+    const val = parseFloat(document.getElementById("value").value);
+    const type = typeSelect.value;
+    const from = unitFrom.value;
+    const to = unitTo.value;
+    
+    if(isNaN(val)) {
+      document.getElementById("result").textContent = "数値を入力してください";
+      return;
+    }
+    
+    let result;
+
+    if(type === "length") {
+      let cm;
+      if(from === "cm") cm = val;
+      else if(from === "m") cm = val * 100;
+      else if(from === "inch") cm = val * 2.54;
+      
+      if(to === "cm") result = cm;
+      else if(to === "m") result = cm / 100;
+      else if(to === "inch") result = cm / 2.54;
+    }
+    else if(type === "weight") {
+      let kg;
+      if(from === "kg") kg = val;
+      else if(from === "g") kg = val / 1000;
+      else if(from === "lb") kg = val / 2.20462;
+
+      if(to === "kg") result = kg;
+      else if(to === "g") result = kg * 1000;
+      else if(to === "lb") result = kg * 2.20462;
+    }
+    else if(type === "temperature") {
+      if(from === "℃" && to === "℉") result = val * 9/5 + 32;
+      else if(from === "℉" && to === "℃") result = (val - 32) * 5/9;
+      else result = val;
     }
 
-    typeSelect.addEventListener("change", updateUnits);
-    updateUnits(); // 初期表示
+    document.getElementById("result").textContent = `${val} ${from} = ${result.toFixed(4)} ${to}`;
+  }
+</script>
 
-    function convert() {
-      const val = parseFloat(document.getElementById("value").value);
-      const type = typeSelect.value;
-      const from = unitFrom.value;
-      const to = unitTo.value;
-      if(isNaN(val)) {
-        document.getElementById("result").textContent = "数値を入力してください";
-        return;
-      }
-      let result;
-
-      if(type === "length") {
-        let cm;
-        if(from === "cm") cm = val;
-        else if(from === "m") cm = val*100;
-        else if(from === "inch") cm = val*2.54;
-        
-        if(to === "cm") result = cm;
-        else if(to === "m") result = cm/100;
-        else if(to === "inch") result = cm/2.54;
-      }
-
-      else if(type === "weight") {
-        let kg;
-        if(from === "kg") kg = val;
-        else if(from === "g") kg = val/1000;
-        else if(from === "lb") kg = val/2.20462;
-
-        if(to === "kg") result = kg;
-        else if(to === "g") result = kg*1000;
-        else if(to === "lb") result = kg*2.20462;
-      }
-
-      else if(type === "temperature") {
-        if(from === "℃" && to === "℉") result = val*9/5+32;
-        else if(from === "℉" && to === "℃") result = (val-32)*5/9;
-        else result = val;
-      }
-
-      document.getElementById("result").textContent = `結果： ${result} ${to}`;
-    }
-  </script>
-  
 </body>
 </html>
-
 
 
 
