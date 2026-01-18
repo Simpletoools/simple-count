@@ -16,290 +16,508 @@
 
   <meta charset="UTF-8" />
   <title>文字数カウント｜無料で使えるシンプルツール</title>
- <link rel="canonical" href="https://simpletooooles.com/">
+  <link rel="canonical" href="https://simpletooooles.com/">
   <meta name="description" content="無料で使えるシンプルな文字数カウントツール。文章を入力するだけでリアルタイムに文字数を確認できます。">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f7f7f7;
-      padding: 24px;
-    }
-    .container {
-      max-width: 700px;
-      margin: auto;
-      background: #fff;
-      padding: 24px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-    h1 {
-      font-size: 1.4rem;
-      margin-bottom: 12px;
-      
-    }
-    textarea {
-      width: 100%;
-      height: 200px;
-      font-size: 1rem;
-      padding: 12px;
-      box-sizing: border-box;
-    }
-    .count {
-      margin-top: 12px;
-      font-size: 1rem;
-    }
-   #resetBtn {
-  margin-top: 12px;
-  padding: 8px 16px;
-  font-size: 0.9rem;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  background: #e0e0e0;
-}
-#resetBtn:hover {
-  background: #d0d0d0;
+/* ===== Base ===== */
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f7f7f7;
+  padding: 24px;
+  color: #222;
 }
 
-  </style>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2973378257048147"
-     crossorigin="anonymous"></script>
+.container {
+  max-width: 680px;
+  margin: auto;
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* ===== Header ===== */
+h1 {
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.15rem;
+  margin-top: 32px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 1rem;
+  margin-top: 24px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.desc {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin-bottom: 24px;
+  color: #444;
+  text-align: center;
+}
+
+/* ===== Tool Area ===== */
+.tool-section {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 24px 0;
+}
+
+textarea {
+  width: 100%;
+  height: 200px;
+  font-size: 1rem;
+  padding: 12px;
+  box-sizing: border-box;
+  border: 2px solid #dee2e6;
+  border-radius: 8px;
+  resize: vertical;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #0066cc;
+}
+
+.count {
+  margin-top: 16px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 12px;
+  background: #fff;
+  border-radius: 8px;
+}
+
+#resetBtn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px 16px;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: #6c757d;
+  color: white;
+  font-weight: 600;
+}
+
+#resetBtn:hover {
+  background: #5a6268;
+}
+
+/* ===== Tool Grid ===== */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.tool-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: white;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.tool-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.tool-card.char-counter { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+.tool-card.unit-converter { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+.tool-card.currency { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+.tool-card.color-picker { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+.tool-card.password { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+.tool-card.omikuji { background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%); }
+
+.tool-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+
+.tool-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.tool-desc {
+  font-size: 0.85rem;
+  opacity: 0.95;
+  line-height: 1.5;
+}
+
+/* ===== Tables ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0 24px 0;
+  background: #fff;
+}
+
+table th,
+table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+table th {
+  background: #f2f4f7;
+  font-weight: bold;
+}
+
+table tr:nth-child(even) {
+  background: #fafafa;
+}
+
+/* ===== FAQ ===== */
+dl {
+  margin: 16px 0;
+}
+
+dt {
+  font-weight: 600;
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+dd {
+  margin-left: 0;
+  margin-bottom: 16px;
+  line-height: 1.7;
+  color: #444;
+}
+
+small {
+  font-size: 0.88rem;
+  color: #666;
+}
+
+/* ===== Footer ===== */
+.footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+.footer a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  body {
+    padding: 16px;
+  }
+  
+  .tools-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  table th,
+  table td {
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+  
+  h1 {
+    font-size: 1.2rem;
+  }
+  
+  h2 {
+    font-size: 1.05rem;
+  }
+}
+</style>
 </head>
 <body>
   <div class="container">
-    <h2>このサイトについて</h2>
-<p>
-このサイトでは、日常や仕事で役に立つシンプルなWebツールを無料公開しています。個人情報の収集や入力した情報の外部漏洩などはございません。
- This site offers free access to simple web tools that are useful for everyday life and work.There is no collection of personal information or leakage of entered information to external parties.
-</p>
-   
- <h3>文字数カウントツール　Character Counter Tool</h3>
-<p>
-文章を入力するだけで、文字数をリアルタイムでカウントできます。
-改行や空白を含めた文字数も確認できるため、SNS投稿前の確認や仕事でのやり取りに役立ちます。
- Simply enter your text to count characters in real time.
-You can also check the character count including line breaks and spaces, making it useful for reviewing posts before sharing on social media or for work communications.
-</p>
-    <textarea id="text" placeholder="ここに文章を入力　Enter text here"></textarea>
-   <button id="resetBtn" type="button">Reset</button>
-    <div class="count">
-      文字数：<span id="charCount">0</span><br />
-      （空白含む）
+    <h1>
+      📝 Simple Tools<br>
+      <small style="font-size: 0.9rem; color: #666;">シンプルで便利な無料ツール集</small>
+    </h1>
+
+    <div class="desc">
+      <p>
+        日常や仕事で役に立つシンプルなWebツールを無料公開しています。<br>
+        個人情報の収集や入力した情報の外部漏洩などはございません。
+      </p>
+      <p>
+        <small>
+          This site offers free access to simple web tools that are useful for everyday life and work.<br>
+          There is no collection of personal information or leakage of entered information to external parties.
+        </small>
+      </p>
     </div>
-   <section>
-  <h2>主要SNSの文字数制限一覧（Character Limits of Major SNS）</h2>
 
-  <p>
-    世界で多く利用されているSNSの中でも、<br>
-    実際に投稿前に文字数を確認する必要があるサービスを中心にまとめています。
-    <br>
-    <small>
-      This table shows character limits for major social networking services where checking text length before posting is important.
-    </small>
-  </p>
-
-  <table border="1" cellspacing="0" cellpadding="8">
-    <thead>
-      <tr>
-        <th>SNS</th>
-        <th>文字数制限<br><small>Character Limit</small></th>
-        <th>対象<br><small>Target</small></th>
-        <th>補足<br><small>Notes</small></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>X (Twitter)</td>
-        <td>140</td>
-        <td>投稿本文<br><small>Post text</small></td>
-        <td>
-          改行・空白を含む<br>
-          <small>Includes line breaks and spaces</small>
-        </td>
-      </tr>
-      <tr>
-        <td>Instagram</td>
-        <td>2,200</td>
-        <td>キャプション<br><small>Caption</small></td>
-        <td>
-          冒頭部分が省略表示されやすい<br>
-          <small>The beginning is often truncated</small>
-        </td>
-      </tr>
-      <tr>
-        <td>YouTube</td>
-        <td>5,000</td>
-        <td>動画説明欄<br><small>Video description</small></td>
-        <td>
-          長文は「もっと見る」で表示<br>
-          <small>Long text is hidden behind “Show more”</small>
-        </td>
-      </tr>
-      <tr>
-        <td>WhatsApp</td>
-        <td>約4,096</td>
-        <td>メッセージ本文<br><small>Message text</small></td>
-        <td>
-          長文は分割される場合あり<br>
-          <small>Long messages may be split</small>
-        </td>
-      </tr>
-      <tr>
-        <td>WhatsApp Business</td>
-        <td>約1,024</td>
-        <td>ビジネスプロフィール説明<br><small>Business profile description</small></td>
-        <td>
-          会社情報・説明文用<br>
-          <small>Used for business information</small>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h3>文字数制限についての注意事項<br><small>Notes on Character Limits</small></h3>
-
-  <p>
-    SNSの仕様やアップデートにより、文字数制限は変更される場合があります。
-    <br>
-    投稿や送信の前には、最新の仕様を確認することをおすすめします。
-  </p>
-
-  <p>
-    <small>
-      Character limits may change depending on platform updates.
-      Always check the latest specifications before posting.
-    </small>
-  </p>
-
-  <h3>文字数チェックの重要性<br><small>Why Character Count Matters</small></h3>
-
-  <p>
-    文字数制限を超えると、投稿できなかったり、一部が省略表示されることがあります。
-    <br>
-    この文字数カウントツールを使えば、文章を入力するだけでリアルタイムに文字数を確認できます。
-  </p>
-
-  <p>
-    <small>
-      Exceeding character limits may prevent posting or cause text to be truncated.
-      This character counter allows you to check text length in real time before posting.
-    </small>
-  </p>
-</section>
-<section>
-  <h2>FAQ（よくある質問）<br><small>Frequently Asked Questions</small></h2>
-
-  <dl>
-    <dt>
-      Q. この文字数カウントは何を基準にしていますか？<br>
-      <small>What does this character counter count?</small>
-    </dt>
-    <dd>
-      日本語・英語を問わず、入力された文字数をそのままカウントします。
-      改行や空白も文字数に含まれます。
+    <h2>📊 文字数カウントツール</h2>
+    <p style="color: #666; font-size: 0.95rem; line-height: 1.7;">
+      文章を入力するだけで、文字数をリアルタイムでカウントできます。
+      改行や空白を含めた文字数も確認できるため、SNS投稿前の確認や仕事でのやり取りに役立ちます。
       <br>
       <small>
-        This tool counts all characters exactly as entered, including line breaks and spaces, regardless of language.
+        Simply enter your text to count characters in real time.
+        You can also check the character count including line breaks and spaces.
       </small>
-    </dd>
+    </p>
 
-    <dt>
-      Q. 改行やスペースも文字数に含まれますか？<br>
-      <small>Are line breaks and spaces included?</small>
-    </dt>
-    <dd>
-      はい、改行やスペースも1文字としてカウントされます。
-      SNSの多くはこれらを文字数に含めるため、実際の投稿に近い結果が表示されます。
+    <div class="tool-section">
+      <textarea id="text" placeholder="ここに文章を入力　Enter text here"></textarea>
+      <div class="count">
+        文字数：<span id="charCount">0</span> 文字<br>
+        <small>（空白含む / Including spaces）</small>
+      </div>
+      <button id="resetBtn" type="button">🔄 Reset</button>
+    </div>
+
+    <h2>🛠️ 公開中のツール</h2>
+    <p style="color: #666; font-size: 0.95rem; margin-bottom: 16px;">
+      Tools currently available
+    </p>
+
+    <div class="tools-grid">
+      <a href="index.html" class="tool-card char-counter">
+        <div class="tool-icon">📝</div>
+        <div class="tool-name">文字数カウント</div>
+        <div class="tool-desc">Character Counter<br>リアルタイムで文字数をカウント</div>
+      </a>
+
+      <a href="unit-converter.html" class="tool-card unit-converter">
+        <div class="tool-icon">📏</div>
+        <div class="tool-name">単位変換</div>
+        <div class="tool-desc">Unit Converter<br>長さ・重さ・温度を簡単変換</div>
+      </a>
+
+      <a href="Currency Converter.html" class="tool-card currency">
+        <div class="tool-icon">💱</div>
+        <div class="tool-name">通貨変換</div>
+        <div class="tool-desc">Currency Converter<br>最新レートで通貨を換算</div>
+      </a>
+
+      <a href="Color pick.html" class="tool-card color-picker">
+        <div class="tool-icon">🎨</div>
+        <div class="tool-name">カラーピッカー</div>
+        <div class="tool-desc">Color Picker<br>HEX/RGB/HSLコードを取得</div>
+      </a>
+
+      <a href="password_generator.html" class="tool-card password">
+        <div class="tool-icon">🔐</div>
+        <div class="tool-name">パスワード生成</div>
+        <div class="tool-desc">Password Generator<br>安全なパスワードを自動生成</div>
+      </a>
+
+      <a href="omikuji.html" class="tool-card omikuji">
+        <div class="tool-icon">🎋</div>
+        <div class="tool-name">おみくじ</div>
+        <div class="tool-desc">Fortune Telling<br>今日の運勢を占う</div>
+      </a>
+    </div>
+
+    <h2>主要SNSの文字数制限一覧</h2>
+    <p style="color: #666; font-size: 0.95rem;">
+      世界で多く利用されているSNSの中でも、実際に投稿前に文字数を確認する必要があるサービスを中心にまとめています。
       <br>
       <small>
-        Yes. Line breaks and spaces are counted as characters, reflecting how most SNS platforms handle text.
+        This table shows character limits for major social networking services where checking text length before posting is important.
       </small>
-    </dd>
+    </p>
 
-    <dt>
-      Q. SNSごとの正確な文字制限と完全に一致しますか？<br>
-      <small>Does this exactly match each SNS character limit?</small>
-    </dt>
-    <dd>
-      SNSの仕様変更や内部処理の違いにより、完全に一致しない場合があります。
-      あくまで投稿前の目安としてご利用ください。
+    <table>
+      <thead>
+        <tr>
+          <th>SNS</th>
+          <th>文字数制限<br><small>Character Limit</small></th>
+          <th>対象<br><small>Target</small></th>
+          <th>補足<br><small>Notes</small></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>X (Twitter)</td>
+          <td>140</td>
+          <td>投稿本文<br><small>Post text</small></td>
+          <td>
+            改行・空白を含む<br>
+            <small>Includes line breaks and spaces</small>
+          </td>
+        </tr>
+        <tr>
+          <td>Instagram</td>
+          <td>2,200</td>
+          <td>キャプション<br><small>Caption</small></td>
+          <td>
+            冒頭部分が省略表示されやすい<br>
+            <small>The beginning is often truncated</small>
+          </td>
+        </tr>
+        <tr>
+          <td>YouTube</td>
+          <td>5,000</td>
+          <td>動画説明欄<br><small>Video description</small></td>
+          <td>
+            長文は「もっと見る」で表示<br>
+            <small>Long text is hidden behind "Show more"</small>
+          </td>
+        </tr>
+        <tr>
+          <td>WhatsApp</td>
+          <td>約4,096</td>
+          <td>メッセージ本文<br><small>Message text</small></td>
+          <td>
+            長文は分割される場合あり<br>
+            <small>Long messages may be split</small>
+          </td>
+        </tr>
+        <tr>
+          <td>WhatsApp Business</td>
+          <td>約1,024</td>
+          <td>ビジネスプロフィール説明<br><small>Business profile description</small></td>
+          <td>
+            会社情報・説明文用<br>
+            <small>Used for business information</small>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>文字数制限についての注意事項</h3>
+    <p style="color: #666; line-height: 1.7;">
+      SNSの仕様やアップデートにより、文字数制限は変更される場合があります。
+      投稿や送信の前には、最新の仕様を確認することをおすすめします。
       <br>
       <small>
-        Due to platform updates and internal processing, results may not always be exact. Please use this as a guideline.
+        Character limits may change depending on platform updates.
+        Always check the latest specifications before posting.
       </small>
-    </dd>
+    </p>
 
-    <dt>
-      Q. このツールは無料で使えますか？<br>
-      <small>Is this tool free to use?</small>
-    </dt>
-    <dd>
-      はい、完全に無料でご利用いただけます。
-      登録やログインは不要です。
+    <h3>文字数チェックの重要性</h3>
+    <p style="color: #666; line-height: 1.7;">
+      文字数制限を超えると、投稿できなかったり、一部が省略表示されることがあります。
+      この文字数カウントツールを使えば、文章を入力するだけでリアルタイムに文字数を確認できます。
       <br>
       <small>
-        Yes. This tool is completely free to use and requires no registration or login.
+        Exceeding character limits may prevent posting or cause text to be truncated.
+        This character counter allows you to check text length in real time before posting.
       </small>
-    </dd>
+    </p>
 
-    <dt>
-      Q. 入力した文章は保存されますか？<br>
-      <small>Is my text stored or saved?</small>
-    </dt>
-    <dd>
-      いいえ、入力された文章は保存されません。
-      すべてブラウザ上で処理されます。
-      <br>
-      <small>
-        No. All text is processed locally in your browser and is not stored.
-      </small>
-    </dd>
-  </dl>
-</section>
+    <h2>よくある質問（FAQ）</h2>
 
-    <h2>公開中のツール　Tools currently available</h2>
-<ul>
-<a href="index.html">文字数カウントツール　Character Counter Tool</a>
-</ul>
-<ul>
-<a href="unit-converter.html">単位変換ツール　Unit Conversion Tool</a>
-</ul>
-<ul>
-<a href="Currency Converter.html">通貨変換ツール　Currency Converter</a>
-</ul>
-<ul>
-<a href="Color pick.html">カラーピッカー Color Picker</a>
-</ul>
-<ul>
-<a href="password_generator.html">パスワード生成ツール　password generator</a>
-</ul>
-<ul>
-<a href="omikuji.html">おみくじ　Fortune Telling</a>
-</ul>
-     <hr>
-<p>
-  <a href="privacy.html">プライバシーポリシー　Privacy policy</a>
-</p>
-    
+    <dl>
+      <dt>
+        Q. この文字数カウントは何を基準にしていますか？<br>
+        <small>What does this character counter count?</small>
+      </dt>
+      <dd>
+        日本語・英語を問わず、入力された文字数をそのままカウントします。
+        改行や空白も文字数に含まれます。
+        <br>
+        <small>
+          This tool counts all characters exactly as entered, including line breaks and spaces, regardless of language.
+        </small>
+      </dd>
+
+      <dt>
+        Q. 改行やスペースも文字数に含まれますか？<br>
+        <small>Are line breaks and spaces included?</small>
+      </dt>
+      <dd>
+        はい、改行やスペースも1文字としてカウントされます。
+        SNSの多くはこれらを文字数に含めるため、実際の投稿に近い結果が表示されます。
+        <br>
+        <small>
+          Yes. Line breaks and spaces are counted as characters, reflecting how most SNS platforms handle text.
+        </small>
+      </dd>
+
+      <dt>
+        Q. SNSごとの正確な文字制限と完全に一致しますか？<br>
+        <small>Does this exactly match each SNS character limit?</small>
+      </dt>
+      <dd>
+        SNSの仕様変更や内部処理の違いにより、完全に一致しない場合があります。
+        あくまで投稿前の目安としてご利用ください。
+        <br>
+        <small>
+          Due to platform updates and internal processing, results may not always be exact. Please use this as a guideline.
+        </small>
+      </dd>
+
+      <dt>
+        Q. このツールは無料で使えますか？<br>
+        <small>Is this tool free to use?</small>
+      </dt>
+      <dd>
+        はい、完全に無料でご利用いただけます。
+        登録やログインは不要です。
+        <br>
+        <small>
+          Yes. This tool is completely free to use and requires no registration or login.
+        </small>
+      </dd>
+
+      <dt>
+        Q. 入力した文章は保存されますか？<br>
+        <small>Is my text stored or saved?</small>
+      </dt>
+      <dd>
+        いいえ、入力された文章は保存されません。
+        すべてブラウザ上で処理されます。
+        <br>
+        <small>
+          No. All text is processed locally in your browser and is not stored.
+        </small>
+      </dd>
+    </dl>
+
+    <div class="footer">
+      <a href="privacy.html">プライバシーポリシー / Privacy Policy</a>
+    </div>
   </div>
+
   <script>
-  const textArea = document.getElementById('text');
-  const charCount = document.getElementById('charCount');
-  const resetBtn = document.getElementById('resetBtn');
+    const textArea = document.getElementById('text');
+    const charCount = document.getElementById('charCount');
+    const resetBtn = document.getElementById('resetBtn');
 
-  textArea.addEventListener('input', () => {
-    charCount.textContent = textArea.value.length;
-  });
+    textArea.addEventListener('input', () => {
+      charCount.textContent = textArea.value.length;
+    });
 
-  resetBtn.addEventListener('click', () => {
-    textArea.value = '';
-    charCount.textContent = 0;
-  });
-</script>
-
+    resetBtn.addEventListener('click', () => {
+      textArea.value = '';
+      charCount.textContent = 0;
+    });
+  </script>
 </body>
 </html>
+
 
 
 
