@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>BMI計算機 | BMI Calculator</title>
+  <link rel="canonical" href="https://simpletooooles.com/bmi-calculator">
+  <meta name="description" content="身長と体重を入力するだけでBMI（肥満度）を自動計算。健康管理に役立つ無料ツール。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+/* ===== Base ===== */
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f7f7f7;
+  padding: 24px;
+  color: #222;
+}
+
+.container {
+  max-width: 680px;
+  margin: auto;
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* ===== Header ===== */
+h1 {
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.desc {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin-bottom: 24px;
+  color: #444;
+  text-align: center;
+}
+
+/* ===== Form ===== */
+.input-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+input[type="number"] {
+  flex: 1;
+  padding: 12px;
+  font-size: 1.1rem;
+  border: 2px solid #dee2e6;
+  border-radius: 8px;
+  text-align: center;
+}
+
+input[type="number"]:focus {
+  outline: none;
+  border-color: #0066cc;
+}
+
+.unit {
+  font-size: 0.95rem;
+  color: #666;
+  min-width: 30px;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  transition: transform 0.2s;
+  margin-top: 10px;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* ===== Result Display ===== */
+.result-box {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  padding: 30px 24px;
+  margin: 24px 0;
+  text-align: center;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.result-box.hidden {
+  display: none;
+}
+
+.bmi-value {
+  font-size: 3rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 12px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.bmi-category {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 8px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+.bmi-category-en {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.95);
+}
+
+.bmi-message {
+  margin-top: 16px;
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.95);
+  line-height: 1.7;
+}
+
+/* ===== Category Colors ===== */
+.result-box.underweight {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.result-box.normal {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.result-box.overweight {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.result-box.obese {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+}
+
+/* ===== BMI Chart ===== */
+.bmi-chart {
+  margin: 30px 0;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 10px;
+}
+
+.bmi-chart h3 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 1.1rem;
+}
+
+.chart-bar {
+  display: flex;
+  height: 40px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.chart-segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.segment-low { background: #4facfe; flex: 18.5; }
+.segment-normal { background: #43e97b; flex: 6.5; }
+.segment-over { background: #fa709a; flex: 5; }
+.segment-obese { background: #ff6b6b; flex: 10; }
+
+.chart-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 8px;
+}
+
+/* ===== Info Table ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+}
+
+table th,
+table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+table th {
+  background: #f2f4f7;
+  font-weight: bold;
+}
+
+table tr:nth-child(even) {
+  background: #fafafa;
+}
+
+/* ===== Column / Text ===== */
+.column {
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px solid #eee;
+  line-height: 1.9;
+  font-size: 0.95rem;
+}
+
+.column h2 {
+  margin-top: 32px;
+  margin-bottom: 10px;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.column p {
+  margin-bottom: 12px;
+}
+
+.column .en {
+  color: #666;
+  font-size: 0.88rem;
+}
+
+.column ul {
+  margin: 8px 0 16px 20px;
+}
+
+.column li {
+  margin-bottom: 6px;
+}
+
+.faq-item {
+  margin-bottom: 20px;
+}
+
+.faq-item strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* ===== Links ===== */
+.links {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+  font-size: 0.9rem;
+}
+
+.links strong {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.links a {
+  display: block;
+  margin-top: 6px;
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  body {
+    padding: 16px;
+  }
+  
+  .bmi-value {
+    font-size: 2.5rem;
+  }
+  
+  .bmi-category {
+    font-size: 1.1rem;
+  }
+  
+  .column {
+    font-size: 0.92rem;
+  }
+  
+  .column h2 {
+    font-size: 1.05rem;
+  }
+  
+  table th,
+  table td {
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+  
+  .chart-segment {
+    font-size: 0.75rem;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>
+    📊 BMI計算機<br>
+    <small>BMI Calculator</small>
+  </h1>
+
+  <div class="desc">
+    <p>
+      身長と体重を入力するだけで、BMI（体格指数）を自動計算します。<br>
+      健康管理の目安としてご活用ください。
+    </p>
+    <p>
+      Enter your height and weight to automatically calculate your BMI (Body Mass Index).<br>
+      Use it as a guide for health management.
+    </p>
+  </div>
+
+  <div class="input-group">
+    <label>身長（Height）</label>
+    <div class="input-wrapper">
+      <input type="number" id="height" placeholder="170" min="0" step="0.1">
+      <span class="unit">cm</span>
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label>体重（Weight）</label>
+    <div class="input-wrapper">
+      <input type="number" id="weight" placeholder="60" min="0" step="0.1">
+      <span class="unit">kg</span>
+    </div>
+  </div>
+
+  <button onclick="calculateBMI()">📊 BMIを計算する Calculate BMI</button>
+
+  <div class="result-box hidden" id="resultBox">
+    <div class="bmi-value" id="bmiValue">-</div>
+    <div class="bmi-category" id="bmiCategory">-</div>
+    <div class="bmi-category-en" id="bmiCategoryEn">-</div>
+    <div class="bmi-message" id="bmiMessage"></div>
+  </div>
+
+  <div class="bmi-chart">
+    <h3>BMI判定基準（日本肥満学会）</h3>
+    <div class="chart-bar">
+      <div class="chart-segment segment-low">低体重</div>
+      <div class="chart-segment segment-normal">普通</div>
+      <div class="chart-segment segment-over">肥満(1)</div>
+      <div class="chart-segment segment-obese">肥満(2~)</div>
+    </div>
+    <div class="chart-labels">
+      <span>18.5未満</span>
+      <span>18.5~25</span>
+      <span>25~30</span>
+      <span>30以上</span>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>BMI値<br><small>BMI Value</small></th>
+        <th>判定<br><small>Category</small></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>18.5未満</td>
+        <td>低体重（やせ）<br><small>Underweight</small></td>
+      </tr>
+      <tr style="background: #e8f5e9;">
+        <td>18.5～25未満</td>
+        <td>普通体重<br><small>Normal weight</small></td>
+      </tr>
+      <tr>
+        <td>25～30未満</td>
+        <td>肥満（1度）<br><small>Overweight</small></td>
+      </tr>
+      <tr>
+        <td>30～35未満</td>
+        <td>肥満（2度）<br><small>Obese Class I</small></td>
+      </tr>
+      <tr>
+        <td>35～40未満</td>
+        <td>肥満（3度）<br><small>Obese Class II</small></td>
+      </tr>
+      <tr>
+        <td>40以上</td>
+        <td>肥満（4度）<br><small>Obese Class III</small></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <section class="column">
+    <h2>BMIとは？</h2>
+    <p>
+      BMI（Body Mass Index：体格指数）は、身長と体重から計算される肥満度を表す指標です。
+      世界保健機関（WHO）が定めた国際基準で、健康管理の目安として広く使われています。
+    </p>
+    <p class="en">
+      BMI (Body Mass Index) is an indicator of obesity calculated from height and weight.
+      It is an international standard established by the World Health Organization (WHO) and is widely used as a guide for health management.
+    </p>
+
+    <h2>BMIの計算方法</h2>
+    <p>
+      BMI = 体重(kg) ÷ (身長(m) × 身長(m))
+    </p>
+    <p>
+      例：身長170cm、体重60kgの場合<br>
+      BMI = 60 ÷ (1.7 × 1.7) = 60 ÷ 2.89 = 20.8
+    </p>
+    <p class="en">
+      BMI = weight(kg) ÷ (height(m) × height(m))<br>
+      Example: Height 170cm, Weight 60kg → BMI = 20.8
+    </p>
+
+    <h2>適正体重について</h2>
+    <p>
+      日本肥満学会では、BMI 22を標準体重（最も病気になりにくい体重）としています。
+      BMI 18.5～25未満が「普通体重」の範囲とされ、健康的な体重とされています。
+    </p>
+    <p class="en">
+      The Japan Society for the Study of Obesity considers BMI 22 as the standard weight (the weight least likely to cause illness).
+      A BMI between 18.5 and 25 is considered "normal weight" and healthy.
+    </p>
+
+    <h2>BMI計算機の活用法</h2>
+    <ul>
+      <li>定期的な健康チェックの指標として</li>
+      <li>ダイエットや体重管理の目標設定に</li>
+      <li>生活習慣病のリスク確認に</li>
+      <li>健康診断の結果と照らし合わせて</li>
+    </ul>
+    <p class="en">
+      Use this BMI calculator for regular health checks, diet planning, lifestyle disease risk assessment, and comparing with health examination results.
+    </p>
+
+    <h2>注意事項</h2>
+    <p>
+      BMIはあくまで目安であり、筋肉量や体脂肪率は考慮されていません。
+      アスリートや高齢者、成長期の子供には適用できない場合があります。
+      詳しい健康状態については、医師や専門家にご相談ください。
+    </p>
+    <p class="en">
+      BMI is only a guideline and does not take into account muscle mass or body fat percentage.
+      It may not be applicable to athletes, elderly people, or growing children.
+      Please consult a doctor or specialist for detailed health information.
+    </p>
+
+    <h2>よくある質問（FAQ）</h2>
+    
+    <div class="faq-item">
+      <strong>Q. BMI 22が理想的なのはなぜですか？</strong>
+      <p>
+        統計的に、BMI 22の人が最も病気にかかりにくく、長生きする傾向があるためです。
+        ただし、個人差があるため、あくまで目安として考えてください。
+      </p>
+      <p class="en">
+        Statistically, people with a BMI of 22 tend to have the lowest risk of illness and live longer.
+        However, there are individual differences, so please consider it as a guideline.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <strong>Q. 筋肉質でもBMIは高くなりますか？</strong>
+      <p>
+        はい、筋肉は脂肪より重いため、筋肉質の人はBMIが高く出る傾向があります。
+        その場合は体脂肪率も併せて確認することをおすすめします。
+      </p>
+      <p class="en">
+        Yes, muscle is heavier than fat, so muscular people tend to have higher BMI.
+        In such cases, it's recommended to also check body fat percentage.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <strong>Q. 子供にもBMIは使えますか？</strong>
+      <p>
+        成長期の子供には、成人と同じBMI基準は適用できません。
+        小児用の成長曲線や専用の評価方法がありますので、小児科医にご相談ください。
+      </p>
+      <p class="en">
+        Adult BMI standards cannot be applied to growing children.
+        There are growth charts and special evaluation methods for children, so please consult a pediatrician.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <strong>Q. 計算結果は保存されますか？</strong>
+      <p>
+        いいえ、入力したデータや計算結果は保存されません。
+        すべてブラウザ上で処理され、個人情報は一切収集しません。
+      </p>
+      <p class="en">
+        No, entered data and calculation results are not saved.
+        Everything is processed in your browser and no personal information is collected.
+      </p>
+    </div>
+  </section>
+
+  <div class="links">
+    <strong>ツール一覧　Other tools</strong>
+    <a href="index.html">文字数カウントツール / Character Counter</a>
+    <a href="unit-converter.html">単位変換ツール / Unit Converter</a>
+    <a href="Currency Converter.html">通貨変換ツール / Currency Converter</a>
+    <a href="Color pick.html">カラーピッカー / Color Picker</a>
+    <a href="password-generator.html">パスワード生成ツール / Password Generator</a>
+    <a href="omikuji.html">おみくじ / Fortune Telling</a>
+  </div>
+
+</div>
+
+<script>
+function calculateBMI() {
+  const height = parseFloat(document.getElementById('height').value);
+  const weight = parseFloat(document.getElementById('weight').value);
+  
+  if (!height || !weight || height <= 0 || weight <= 0) {
+    alert('正しい身長と体重を入力してください');
+    return;
+  }
+  
+  // BMI計算（身長をmに変換）
+  const heightM = height / 100;
+  const bmi = weight / (heightM * heightM);
+  
+  // 結果表示
+  const resultBox = document.getElementById('resultBox');
+  const bmiValue = document.getElementById('bmiValue');
+  const bmiCategory = document.getElementById('bmiCategory');
+  const bmiCategoryEn = document.getElementById('bmiCategoryEn');
+  const bmiMessage = document.getElementById('bmiMessage');
+  
+  bmiValue.textContent = bmi.toFixed(1);
+  
+  // カテゴリ判定
+  let category, categoryEn, message, colorClass;
+  
+  if (bmi < 18.5) {
+    category = '低体重（やせ）';
+    categoryEn = 'Underweight';
+    message = '体重が少なめです。栄養バランスの良い食事を心がけましょう。必要に応じて医師や栄養士に相談することをおすすめします。';
+    colorClass = 'underweight';
+  } else if (bmi < 25) {
+    category = '普通体重';
+    categoryEn = 'Normal weight';
+    message = '理想的な体重です！この状態を維持するために、バランスの良い食事と適度な運動を続けましょう。';
+    colorClass = 'normal';
+  } else if (bmi < 30) {
+    category = '肥満（1度）';
+    categoryEn = 'Overweight';
+    message = 'やや肥満気味です。食生活の見直しと運動習慣を取り入れることで、健康的な体重に近づけます。';
+    colorClass = 'overweight';
+  } else {
+    category = '肥満（2度以上）';
+    categoryEn = 'Obese';
+    message = '肥満の状態です。生活習慣病のリスクが高まります。医師や専門家に相談して、計画的な減量を始めることをおすすめします。';
+    colorClass = 'obese';
+  }
+  
+  bmiCategory.textContent = category;
+  bmiCategoryEn.textContent = categoryEn;
+  bmiMessage.textContent = message;
+  
+  // 色を変更
+  resultBox.className = 'result-box ' + colorClass;
+  resultBox.classList.remove('hidden');
+  
+  // 結果までスクロール
+  resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// Enterキーで計算
+document.getElementById('height').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') calculateBMI();
+});
+
+document.getElementById('weight').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') calculateBMI();
+});
+</script>
+
+</body>
+</html>

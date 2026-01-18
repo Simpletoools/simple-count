@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>大文字⇔小文字変換 | Text Case Converter</title>
+  <link rel="canonical" href="https://simpletooooles.com/text-case-converter">
+  <meta name="description" content="テキストを大文字・小文字・タイトルケースなどに簡単変換。プログラミングやSNSでの文字列変換に便利な無料ツール。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+/* ===== Base ===== */
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f7f7f7;
+  padding: 24px;
+  color: #222;
+}
+
+.container {
+  max-width: 680px;
+  margin: auto;
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* ===== Header ===== */
+h1 {
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.desc {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin-bottom: 24px;
+  color: #444;
+  text-align: center;
+}
+
+/* ===== Textarea ===== */
+.text-section {
+  margin-bottom: 20px;
+}
+
+.text-section label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 150px;
+  font-size: 1rem;
+  padding: 12px;
+  box-sizing: border-box;
+  border: 2px solid #dee2e6;
+  border-radius: 8px;
+  resize: vertical;
+  font-family: monospace;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #0066cc;
+}
+
+#output {
+  background: #f8f9fa;
+}
+
+/* ===== Button Grid ===== */
+.button-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin: 20px 0;
+}
+
+button {
+  padding: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-upper {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.btn-lower {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+}
+
+.btn-title {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  color: white;
+}
+
+.btn-sentence {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  color: white;
+}
+
+.btn-toggle {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+}
+
+.btn-copy {
+  background: #28a745;
+  color: white;
+  grid-column: 1 / -1;
+}
+
+.btn-clear {
+  background: #6c757d;
+  color: white;
+  grid-column: 1 / -1;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* ===== Info Box ===== */
+.info-box {
+  background: #e7f3ff;
+  border-left: 4px solid #0066cc;
+  padding: 16px;
+  border-radius: 6px;
+  margin: 20px 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.info-box strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #0066cc;
+}
+
+/* ===== Examples ===== */
+.examples {
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.examples h3 {
+  margin-top: 0;
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+
+.example-item {
+  margin-bottom: 12px;
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+.example-label {
+  font-weight: 600;
+  color: #666;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.example-text {
+  background: white;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+}
+
+/* ===== Column / Text ===== */
+.column {
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px solid #eee;
+  line-height: 1.9;
+  font-size: 0.95rem;
+}
+
+.column h2 {
+  margin-top: 32px;
+  margin-bottom: 10px;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.column p {
+  margin-bottom: 12px;
+}
+
+.column .en {
+  color: #666;
+  font-size: 0.88rem;
+}
+
+.column ul {
+  margin: 8px 0 16px 20px;
+}
+
+.column li {
+  margin-bottom: 6px;
+}
+
+.faq-item {
+  margin-bottom: 20px;
+}
+
+.faq-item strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* ===== Links ===== */
+.links {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+  font-size: 0.9rem;
+}
+
+.links strong {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.links a {
+  display: block;
+  margin-top: 6px;
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  body {
+    padding: 16px;
+  }
+  
+  .button-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .btn-copy,
+  .btn-clear {
+    grid-column: 1;
+  }
+  
+  .column {
+    font-size: 0.92rem;
+  }
+  
+  .column h2 {
+    font-size: 1.05rem;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>
+    🔠 大文字⇔小文字変換<br>
+    <small>Text Case Converter</small>
+  </h1>
+
+  <div class="desc">
+    <p>
+      テキストを様々な形式に簡単変換。<br>
+      プログラミング、SNS、文書作成などに便利です。
+    </p>
+    <p>
+      Easily convert text to various formats.<br>
+      Useful for programming, social media, and document creation.
+    </p>
+  </div>
+
+  <div class="text-section">
+    <label>入力テキスト（Input Text）</label>
+    <textarea id="input" placeholder="ここにテキストを入力してください&#10;Enter your text here"></textarea>
+  </div>
+
+  <div class="button-grid">
+    <button class="btn-upper" onclick="convertToUpper()">🔤 大文字<br><small>UPPERCASE</small></button>
+    <button class="btn-lower" onclick="convertToLower()">🔡 小文字<br><small>lowercase</small></button>
+    <button class="btn-title" onclick="convertToTitle()">🔠 タイトル<br><small>Title Case</small></button>
+    <button class="btn-sentence" onclick="convertToSentence()">📝 文頭大文字<br><small>Sentence case</small></button>
+    <button class="btn-toggle" onclick="toggleCase()">⇄ 反転<br><small>Toggle Case</small></button>
+    <button class="btn-copy" onclick="copyToClipboard()">📋 コピー Copy</button>
+    <button class="btn-clear" onclick="clearText()">🗑️ クリア Clear</button>
+  </div>
+
+  <div class="text-section">
+    <label>出力テキスト（Output Text）</label>
+    <textarea id="output" readonly></textarea>
+  </div>
+
+  <div class="info-box">
+    <strong>💡 使い方のヒント</strong>
+    上のテキストエリアに文章を入力し、変換したい形式のボタンをクリックするだけ！
+    変換結果は下のエリアに表示され、コピーボタンで簡単にクリップボードにコピーできます。
+  </div>
+
+  <div class="examples">
+    <h3>📋 変換例（Conversion Examples）</h3>
+    
+    <div class="example-item">
+      <span class="example-label">元のテキスト (Original):</span>
+      <div class="example-text">hello world! this is a TEST.</div>
+    </div>
+    
+    <div class="example-item">
+      <span class="example-label">大文字 (UPPERCASE):</span>
+      <div class="example-text">HELLO WORLD! THIS IS A TEST.</div>
+    </div>
+    
+    <div class="example-item">
+      <span class="example-label">小文字 (lowercase):</span>
+      <div class="example-text">hello world! this is a test.</div>
+    </div>
+    
+    <div class="example-item">
+      <span class="example-label">タイトルケース (Title Case):</span>
+      <div class="example-text">Hello World! This Is A Test.</div>
+    </div>
+    
+    <div class="example-item">
+      <span class="example-label">文頭大文字 (Sentence case):</span>
+      <div class="example-text">Hello world! This is a test.</div>
+    </div>
+    
+    <div class="example-item">
+      <span class="example-label">反転 (Toggle Case):</span>
+      <div class="example-text">HELLO WORLD! tHIS IS A test.</div>
+    </div>
+  </div>
+
+  <section class="column">
+    <h2>大文字⇔小文字変換とは？</h2>
+    <p>
+      テキストの文字を大文字（UPPERCASE）、小文字（lowercase）、タイトルケース（Title Case）などに
+      簡単に変換できるツールです。プログラミング、文書作成、SNS投稿など、様々な場面で活用できます。
+    </p>
+    <p class="en">
+      A tool that easily converts text to uppercase, lowercase, title case, and more.
+      Useful for programming, document creation, social media posts, and various other situations.
+    </p>
+
+    <h2>各変換形式の説明</h2>
+    <ul>
+      <li><strong>大文字（UPPERCASE）</strong> - すべての文字を大文字に変換します。強調したい見出しや注意書きに。</li>
+      <li><strong>小文字（lowercase）</strong> - すべての文字を小文字に変換します。カジュアルな印象を与えます。</li>
+      <li><strong>タイトルケース（Title Case）</strong> - 各単語の先頭を大文字に。記事タイトルや見出しに最適。</li>
+      <li><strong>文頭大文字（Sentence case）</strong> - 文の最初の文字だけを大文字に。通常の文章に。</li>
+      <li><strong>反転（Toggle Case）</strong> - 大文字と小文字を入れ替えます。ユニークな表現に。</li>
+    </ul>
+    <p class="en">
+      UPPERCASE for emphasis, lowercase for casual tone, Title Case for headings,
+      Sentence case for normal text, and Toggle Case for unique expressions.
+    </p>
+
+    <h2>このツールが役立つシーン</h2>
+    <ul>
+      <li>プログラミング時の変数名やクラス名の変換</li>
+      <li>SNSでの投稿文のスタイル変更</li>
+      <li>ブログ記事のタイトル作成</li>
+      <li>英文メールやレポートの書式調整</li>
+      <li>大文字で入力してしまった文章の修正</li>
+      <li>デザインやマーケティング資料のテキスト調整</li>
+    </ul>
+    <p class="en">
+      Useful for variable/class naming in programming, social media styling, blog title creation,
+      email formatting, fixing accidentally capitalized text, and design/marketing materials.
+    </p>
+
+    <h2>プログラミングでの命名規則</h2>
+    <p>
+      プログラミングでは、大文字・小文字の使い分けが重要です。
+      一般的な命名規則には、camelCase（キャメルケース）、PascalCase（パスカルケース）、
+      snake_case（スネークケース）、SCREAMING_SNAKE_CASE（スクリーミングスネークケース）などがあります。
+    </p>
+    <p class="en">
+      In programming, the use of uppercase and lowercase is important.
+      Common naming conventions include camelCase, PascalCase, snake_case, and SCREAMING_SNAKE_CASE.
+    </p>
+
+    <h2>よくある質問（FAQ）</h2>
+    
+    <div class="faq-item">
+      <strong>Q. 日本語の文字も変換できますか？</strong>
+      <p>
+        このツールは主に英字（A-Z）の大文字・小文字変換に対応しています。
+        日本語のひらがな・カタカナ・漢字は変換されません。
+      </p>
+      <p class="en">
+        This tool primarily supports uppercase/lowercase conversion for English letters (A-Z).
+        Japanese hiragana, katakana, and kanji are not converted.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <strong>Q. 複数行のテキストも変換できますか？</strong>
+      <p>
+        はい、改行を含む複数行のテキストも変換できます。
+        段落や行の構造はそのまま保持されます。
+      </p>
+      <p class="en">
+        Yes, multi-line text including line breaks can be converted.
+        Paragraph and line structure is preserved.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <strong>Q. 変換したテキストはどうやってコピーしますか？</strong>
+      <p>
+        「コピー」ボタンをクリックすると、変換結果が自動的にクリップボードにコピーされます。
+        その後、Ctrl+V（またはCmd+V）で貼り付けできます。
+      </p>
+      <p class="en">
+        Click the "Copy" button to automatically copy the conversion result to your clipboard.
+        Then paste it using Ctrl+V (or Cmd+V).
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <strong>Q. 入力したテキストは保存されますか？</strong>
+      <p>
+        いいえ、入力されたテキストや変換結果は保存されません。
+        すべてブラウザ上で処理され、外部に送信されることはありません。
+      </p>
+      <p class="en">
+        No, entered text and conversion results are not saved.
+        Everything is processed in your browser and not sent externally.
+      </p>
+    </div>
+
+    <div class="faq-item">
+      <strong>Q. タイトルケースで小文字のままになる単語はありますか？</strong>
+      <p>
+        基本的にすべての単語の先頭が大文字になります。
+        ただし、より高度な英語のタイトルケースルール（冠詞や前置詞を小文字にするなど）には対応していません。
+      </p>
+      <p class="en">
+        Basically, the first letter of every word is capitalized.
+        However, it does not support more advanced English title case rules (such as keeping articles and prepositions in lowercase).
+      </p>
+    </div>
+  </section>
+
+  <div class="links">
+    <strong>ツール一覧　Other tools</strong>
+    <a href="index.html">文字数カウントツール / Character Counter</a>
+    <a href="unit-converter.html">単位変換ツール / Unit Converter</a>
+    <a href="Currency Converter.html">通貨変換ツール / Currency Converter</a>
+    <a href="Color pick.html">カラーピッカー / Color Picker</a>
+    <a href="password-generator.html">パスワード生成ツール / Password Generator</a>
+    <a href="omikuji.html">おみくじ / Fortune Telling</a>
+    <a href="bmi-calculator.html">BMI計算機 / BMI Calculator</a>
+  </div>
+
+</div>
+
+<script>
+const inputText = document.getElementById('input');
+const outputText = document.getElementById('output');
+
+function convertToUpper() {
+  const text = inputText.value;
+  outputText.value = text.toUpperCase();
+}
+
+function convertToLower() {
+  const text = inputText.value;
+  outputText.value = text.toLowerCase();
+}
+
+function convertToTitle() {
+  const text = inputText.value;
+  outputText.value = text.replace(/\w\S*/g, function(txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+}
+
+function convertToSentence() {
+  const text = inputText.value;
+  outputText.value = text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, function(c) {
+    return c.toUpperCase();
+  });
+}
+
+function toggleCase() {
+  const text = inputText.value;
+  let result = '';
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+    if (char === char.toUpperCase()) {
+      result += char.toLowerCase();
+    } else {
+      result += char.toUpperCase();
+    }
+  }
+  outputText.value = result;
+}
+
+function copyToClipboard() {
+  if (!outputText.value) {
+    alert('変換結果がありません。まずテキストを変換してください。');
+    return;
+  }
+  
+  outputText.select();
+  document.execCommand('copy');
+  alert('コピーしました！ Copied!');
+}
+
+function clearText() {
+  inputText.value = '';
+  outputText.value = '';
+  inputText.focus();
+}
+
+// 入力時に自動で最後に使った変換を適用
+let lastConversion = null;
+
+inputText.addEventListener('input', function() {
+  if (lastConversion && inputText.value) {
+    lastConversion();
+  }
+});
+</script>
+
+</body>
+</html>
