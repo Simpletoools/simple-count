@@ -24,6 +24,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+  
 <url>
     <loc>https://simple-count.pages.dev/password_generator.html</loc>
     <changefreq>weekly</changefreq>
@@ -35,6 +36,18 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+
+   <url>
+    <loc>https://simple-count.pages.dev/bmi_calculator.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+   <url>
+    <loc>https://simple-count.pages.dev/text_converter.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
   
   <url>
     <loc>https://simple-count.pages.dev/privacy.html</loc>
@@ -43,4 +56,5 @@
   </url>
 
 </urlset>
+
 
